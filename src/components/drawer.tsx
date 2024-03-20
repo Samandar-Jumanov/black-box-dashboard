@@ -3,12 +3,12 @@
 
 import React from 'react';
 import { Divider, List, ListItemButton, ListItemIcon, ListItemText, Button } from '@mui/material';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import BugReportIcon from '@mui/icons-material/BugReport'; // For Collected Problems
 import EmailIcon from '@mui/icons-material/Email'; // For Created Emails
 import ShowChartIcon from '@mui/icons-material/ShowChart'; // For Growth
 import VpnKeyIcon from '@mui/icons-material/VpnKey'; // For API Keys
 import LogoutIcon from '@mui/icons-material/Logout';
+import FeedbackIcon from "@mui/icons-material/Feedback"
 import { signOut, useSession } from 'next-auth/react';
 import { useGlobalContext } from './context';
 import MuiLink from '@mui/material/Link'; 
@@ -38,7 +38,7 @@ export const SideBarDrawer = () => {
 
   return (
     <List>
-      {session ? (
+      {0==0 ? (
         <>
           <ListItemButton onClick={handleDrawerClose}>
             <MuiLink underline="none" color="inherit" sx={{ display: 'flex', width: '100%' }} href="/collections">
@@ -47,6 +47,15 @@ export const SideBarDrawer = () => {
             </MuiLink>
           </ListItemButton>
           <Divider />
+
+          <ListItemButton onClick={handleDrawerClose}>
+            <MuiLink underline="none" color="inherit" sx={{ display: 'flex', width: '100%' }} href="/collections">
+              <ListItemIcon> <FeedbackIcon />  </ListItemIcon>
+              <ListItemText primary="Recieved feedbacks" />
+            </MuiLink>
+          </ListItemButton>
+          <Divider />
+
 
           <ListItemButton onClick={handleDrawerClose}>
             <MuiLink underline="none" color="inherit" sx={{ display: 'flex', width: '100%' }} href="/created-emails">
