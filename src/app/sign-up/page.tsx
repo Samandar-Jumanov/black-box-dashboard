@@ -1,28 +1,26 @@
 "use client"
+
 import React, { useState } from 'react';
 import { Button, TextField, Container, Typography, Grid, CircularProgress } from '@mui/material';
 import { signIn } from "next-auth/react";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
-const SignupPage = () => {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false); 
 
+const LoginPage = () => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false); 
+  const [ organizationName , setOrganizationName] = useState<string>("");
+
+  const router = useRouter();
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement> ) => {
     e.preventDefault();
     setLoading(true)
       try {
-        console.log({
-           email : email ,
-           name : name ,
-           password : password 
-        });
 
-
-        if(!email || !password ||  !name ) {
+        if(!email || !password  ) {
            toast.error("Invalid inputs  ")
            setLoading(false)
            return
@@ -30,16 +28,16 @@ const SignupPage = () => {
 
         await signIn('credentials', {
           redirect: true,
-          email :"email",
-          password :"password" ,
-          name : "name" ,
-          signup: "true"
+          email : email,
+          password : password ,
+          signup: "false"
+
         }).then((res ) =>{
           toast.success("Account created successfully")
+          router.push('/growth');
         }).catch((err : any ) =>{
           toast.error(err.message)
         })
-
         
       }catch(error : any ){
        toast.error(`Cannot create an account ${error.message}`)
@@ -49,8 +47,8 @@ const SignupPage = () => {
   return (
     <Container component="main" maxWidth="xs">
       <Typography component="h1" variant="h5" sx={{ mt: 8, mb: 4, textAlign: "center" }}>
-        Sign up
-      </Typography>
+        Welcome !
+      </Typography> 
       <form  noValidate autoComplete="off" onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -65,18 +63,22 @@ const SignupPage = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </Grid>
+         
           <Grid item xs={12}>
             <TextField
               required
               fullWidth
-              id="name"
-              label="Organization Name"
-              name="name"
-              autoComplete="org-name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              name="organizationName"
+              label="organizationName"
+              type="organizationName"
+              id="organizationName"
+              autoComplete="new-organizationName"
+              value={organizationName}
+              onChange={(e) => setOrganizationName(e.target.value)}
             />
           </Grid>
+
+
           <Grid item xs={12}>
             <TextField
               required
@@ -90,6 +92,7 @@ const SignupPage = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </Grid>
+
           <Grid item xs={12}>
             <Button
               type="submit"
@@ -119,4 +122,4 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;
+export default LoginPage;

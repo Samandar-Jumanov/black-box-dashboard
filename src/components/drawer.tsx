@@ -3,7 +3,6 @@
 
 import React from 'react';
 import { Divider, List, ListItemButton, ListItemIcon, ListItemText, Button } from '@mui/material';
-import CoffeeIcon from '@mui/icons-material/Coffee';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import BugReportIcon from '@mui/icons-material/BugReport'; // For Collected Problems
 import EmailIcon from '@mui/icons-material/Email'; // For Created Emails
@@ -39,24 +38,10 @@ export const SideBarDrawer = () => {
 
   return (
     <List>
-      <ListItemButton onClick={handleDrawerClose}>
-        <MuiLink underline="none" color="inherit" sx={{ display: 'flex', width: '100%' }} href="/get-started">
-          <ListItemText primary="Get started" />
-        </MuiLink>
-      </ListItemButton>
-      <Divider />
       {session ? (
         <>
           <ListItemButton onClick={handleDrawerClose}>
-            <MuiLink underline="none" color="inherit" sx={{ display: 'flex', width: '100%' }} href={`account/${session?.user?.name}`}>
-              <ListItemIcon><AccountCircleIcon /></ListItemIcon>
-              <ListItemText primary="Account" />
-            </MuiLink>
-          </ListItemButton>
-          <Divider />
-
-          <ListItemButton onClick={handleDrawerClose}>
-            <MuiLink underline="none" color="inherit" sx={{ display: 'flex', width: '100%' }} href="/collected-problems">
+            <MuiLink underline="none" color="inherit" sx={{ display: 'flex', width: '100%' }} href="/collections">
               <ListItemIcon><BugReportIcon /></ListItemIcon>
               <ListItemText primary="Issues collected" />
             </MuiLink>
