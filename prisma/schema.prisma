@@ -8,15 +8,17 @@ datasource db {
 }
 
 model User {
-  id             String    @id @default(cuid())
-  organizationName           String?    @unique
-  email          String?   @unique
-  emailVerified  DateTime?
-  image          String?
-  password String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  id                String    @id @default(cuid())
+  organizationName  String?   @unique
+  email             String?   @unique
+  emailVerified     DateTime?
+  image             String?
+  password          String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
+
+  apiKeys   ApiKey[]
   accounts Account[]
 }
 
@@ -37,4 +39,13 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+}
+
+model ApiKey {
+  id           String  @id @default(cuid())
+  name         String 
+  description  String?
+
+  userId  String?  
+  user    User?   @relation(fields: [userId] , references: [id] ,onDelete: Cascade)
 }

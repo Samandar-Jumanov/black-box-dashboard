@@ -25,13 +25,12 @@ const LoginPage = () => {
         }
 
         await signIn('credentials', {
-          redirect: true,
           email : email,
           password : password ,
-          signup: "false"
+          mode: 'signin'
 
         }).then((res ) =>{
-          toast.success("Account created successfully")
+          toast.success("Logged in succesfully")
           router.push('/growth');
         }).catch((err : any ) =>{
           toast.error(err.message)

@@ -8,50 +8,63 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
-
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
         email: { label: "Email", type: "email" },
         organizationName: { label: "Username", type: "text", placeholder: "Optional" }, 
         password: { label: "Password", type: "password" },
+        mode: { label: "Mode", type: "text" }
       },
 
-      async authorize(credentials : any  ) {
-              
-        if(!credentials.email || !credentials.password) {
-            throw new Error('Please enter an email and password')
+      async authorize(credentials: any) {
+        if (!credentials.email || !credentials.password) {
+          throw new Error('Please enter an email and password');
         }
 
-        const user = await prisma.user.findUnique({
+        // Determine the mode (sign-in or sign-up)
+        const isSignUp = credentials.mode === 'signup';
+
+        if (isSignUp) {
+          const existingUser = await prisma.user.findUnique({
             where: {
-                email: credentials.email
-            }
-        });
+              email: credentials.email,
+            },
+          });
 
+          if (existingUser) {
+            throw new Error('User already exists');
+          }
 
+          const hashedPassword = await bcrypt.hash(credentials.password, 10);
+          const newUser = await prisma.user.create({
+            data: {
+              email: credentials.email,
+              organizationName: credentials.organizationName,
+              password: hashedPassword,
+            },
+          });
 
+          return newUser;
+        } else {
+          const user = await prisma.user.findUnique({
+            where: {
+              email: credentials.email,
+            },
+          });
 
-        if (!user ) {
-          const hashedPassword = await bcrypt.hash(credentials.password as string  , 10)
-              const newUser = await prisma.user.create({
-                     data : {
-                          email : credentials.email,
-                          organizationName : credentials.name,
-                          password : hashedPassword 
-                     }
-              })
+          if (!user) {
+            throw new Error('User does not exist');
+          }
 
-              return newUser
+          const passwordMatch = await bcrypt.compare(credentials.password, user.password as string);
+          if (!passwordMatch) {
+            throw new Error('Incorrect password');
+          }
+
+          return user;
         }
-
-        const passwordMatch = await bcrypt.compare(credentials.password, user?.password as string )
-        if (!passwordMatch) {
-            throw new Error('Incorrect password')
-        }
-
-        return user;
-    },
+      },
     }),
   ],
   secret: process.env.SECRET,
@@ -60,6 +73,5 @@ const authOptions: NextAuthOptions = {
   },
 };
 
-
-const handler = NextAuth(authOptions)
-export { handler as GET , handler as POST }
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };

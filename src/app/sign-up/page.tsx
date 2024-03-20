@@ -30,8 +30,8 @@ const LoginPage = () => {
           redirect: true,
           email : email,
           password : password ,
-          signup: "false"
-
+          organizationName : organizationName,
+          mode: 'signup'
         }).then((res ) =>{
           toast.success("Account created successfully")
           router.push('/growth');

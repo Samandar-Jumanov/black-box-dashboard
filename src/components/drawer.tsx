@@ -38,7 +38,7 @@ export const SideBarDrawer = () => {
 
   return (
     <List>
-      {0==0 ? (
+      { session ? (
         <>
           <ListItemButton onClick={handleDrawerClose}>
             <MuiLink underline="none" color="inherit" sx={{ display: 'flex', width: '100%' }} href="/collections">
