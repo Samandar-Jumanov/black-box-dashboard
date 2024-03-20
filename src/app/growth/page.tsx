@@ -1,15 +1,18 @@
-"use client";
+"use client"
 
-import { useSession } from "next-auth/react";
+import type { NextPage } from 'next';
+import ChartComponent from '@/components/ChartComponent';
 
- const Growth = () =>{
-      const { data : session } = useSession();
+const Growth: NextPage = () => {
+  const labels = ['January', 'February', 'March', 'April'];
+  const data = [10, 20, 15, 25]; 
 
-      if(!session) {
-          return <h1>  You are not allowed for this page</h1>
-      }
-
-      return <h1>  Growth </h1>
-}
+  return (
+    <div style={{ padding: 20 }}>
+      <h1>My Chart</h1>
+      <ChartComponent labels={labels} data={data} />
+    </div>
+  );
+};
 
 export default Growth;

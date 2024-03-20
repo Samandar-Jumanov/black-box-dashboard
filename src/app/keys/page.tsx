@@ -7,7 +7,7 @@ import { toast } from "react-hot-toast";
 const initialApiKeys = [
   {
     id: 1,
-    name: 'Key 1',
+    name: 'Defaukt key ',
     description: 'Description for Key 1',
     createdAt: '2024-03-20',
     createdBy: 'Admin',
@@ -29,10 +29,6 @@ const ApiKeys = () => {
 
   return (
     <Paper elevation={2} style={{ padding: '20px', margin: '100px' }}>
-      <Typography variant="h5" component="h2" style={{ marginBottom: '20px' }}>
-        API Keys
-      </Typography>
-
       <Alert severity="warning" style={{ backgroundColor: 'lightyellow', color: 'black', marginBottom: '20px' }}>
         <Typography variant="body1">
           <strong>Important:</strong> Keep your API keys confidential! Sharing your API keys can lead to unauthorized access to your account, resulting in data loss or theft. Treat them like you would your password, and never share them in publicly accessible areas such as GitHub, social media, or other online platforms.
