@@ -49,7 +49,7 @@ export const SideBarDrawer = () => {
           <Divider />
 
           <ListItemButton onClick={handleDrawerClose}>
-            <MuiLink underline="none" color="inherit" sx={{ display: 'flex', width: '100%' }} href="/collections">
+            <MuiLink underline="none" color="inherit" sx={{ display: 'flex', width: '100%' }} href="/feedbacks">
               <ListItemIcon> <FeedbackIcon />  </ListItemIcon>
               <ListItemText primary="Recieved feedbacks" />
             </MuiLink>

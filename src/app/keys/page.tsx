@@ -1,10 +1,9 @@
 "use client"
-
 import React, { useState } from 'react';
-import { Typography, List, ListItem, ListItemText, Paper, Button, IconButton, Tooltip } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { Typography, List, ListItem, ListItemText, Paper, IconButton, Tooltip, Alert } from '@mui/material';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
-import { toast } from "react-hot-toast"
+import { toast } from "react-hot-toast";
+
 const initialApiKeys = [
   {
     id: 1,
@@ -19,21 +18,12 @@ const initialApiKeys = [
 const ApiKeys = () => {
   const [apiKeys, setApiKeys] = useState(initialApiKeys);
 
-  const addApiKey = () => {
-    const newKey = {
-      id: apiKeys.length + 1,
-      name: `Key ${apiKeys.length + 1}`,
-      description: `Description for Key ${apiKeys.length + 1}`,
-      createdAt: new Date().toISOString().split('T')[0],
-      createdBy: 'User',
-      apiKey: Math.random().toString(36).substring(2, 15) // Generates a random string; replace with your actual API key generation logic
-    };
-    setApiKeys([...apiKeys, newKey]);
-  };
-
-  const copyToClipboard = (apiKey : string ) => {
+  const copyToClipboard = (apiKey: string) => {
     navigator.clipboard.writeText(apiKey).then(() => {
-      toast.success("Aki key copied  to clipboard")
+      toast.success("API key copied to clipboard!");
+    }).catch((err) => {
+      console.error('Failed to copy API key: ', err);
+      toast.error("Failed to copy API key.");
     });
   };
 
@@ -42,9 +32,17 @@ const ApiKeys = () => {
       <Typography variant="h5" component="h2" style={{ marginBottom: '20px' }}>
         API Keys
       </Typography>
-      {/* <Button variant="contained" startIcon={<AddIcon />} onClick={addApiKey} style={{ marginBottom: '20px' }}>
-        Add API Key
-      </Button> */}
+
+      <Alert severity="warning" style={{ backgroundColor: 'lightyellow', color: 'black', marginBottom: '20px' }}>
+        <Typography variant="body1">
+          <strong>Important:</strong> Keep your API keys confidential! Sharing your API keys can lead to unauthorized access to your account, resulting in data loss or theft. Treat them like you would your password, and never share them in publicly accessible areas such as GitHub, social media, or other online platforms.
+        </Typography>
+      </Alert>
+
+      <Typography variant="body1" style={{ marginBottom: '20px', color: 'green' }}>
+        This one API key is on us, and you cannot create another one. It is free for your use.
+      </Typography>
+
       <List>
         {apiKeys.map((key) => (
           <ListItem key={key.id} secondaryAction={
