@@ -57,7 +57,6 @@ const Collections = () => {
                 open={Boolean(anchorEl) && selectedBugId === bug.id}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Status: {bug.status}</MenuItem>
                 <MenuItem onClick={handleClose}>{bug.status === "Added" ? "Remove from Progress" : "Add to progress" }</MenuItem>
                 <MenuItem onClick={handleClose}> Remove from collections </MenuItem>
               </Menu>

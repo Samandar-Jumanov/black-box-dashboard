@@ -54,7 +54,7 @@ const LoginPage = () => {
           setLoading(false);
         } else {
           toast.success("Logged in successfully");
-          router.push('/progress');
+          router.push('/');
         }
       });
     } catch (error : any ) {

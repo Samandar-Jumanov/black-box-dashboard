@@ -34,7 +34,7 @@ const LoginPage = () => {
           mode: 'signup'
         }).then((res ) =>{
           toast.success("Account created successfully")
-          router.push('/growth');
+          router.push('/');
         }).catch((err : any ) =>{
           toast.error(err.message)
         })
