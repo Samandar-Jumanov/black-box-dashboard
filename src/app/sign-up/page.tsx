@@ -15,6 +15,15 @@ const LoginPage = () => {
 
   const router = useRouter();
   
+
+  const validateEmail = (email : string ) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\\.,;:\s@\"]+\.)+[^<>()[\]\\.,;:\s@\"]{2,})$/
+      );
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement> ) => {
     e.preventDefault();
     setLoading(true)
@@ -26,15 +35,28 @@ const LoginPage = () => {
            return
         }
 
+        if (!validateEmail(email)) {
+          toast.error("Invalid email format");
+          setLoading(false);
+          return;
+        }
+
+        
         await signIn('credentials', {
-          redirect: true,
+          redirect: false,
           email : email,
           password : password ,
           organizationName : organizationName,
           mode: 'signup'
-        }).then((res ) =>{
-          toast.success("Account created successfully")
-          router.push('/');
+        }).then((res : any  ) =>{
+          if (res.error) {
+            toast.error(res.error);
+            setLoading(false);
+          } else {
+            toast.success("Logged in successfully");
+            router.push('/');
+          }
+
         }).catch((err : any ) =>{
           toast.error(err.message)
         })

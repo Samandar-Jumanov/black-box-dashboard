@@ -21,49 +21,58 @@ const authOptions: NextAuthOptions = {
         if (!credentials.email || !credentials.password) {
           throw new Error('Please enter an email and password');
         }
-
-        // Determine the mode (sign-in or sign-up)
         const isSignUp = credentials.mode === 'signup';
 
-        if (isSignUp) {
-          const existingUser = await prisma.user.findUnique({
-            where: {
-              email: credentials.email,
-            },
-          });
 
-          if (existingUser) {
-            throw new Error('User already exists');
-          }
+          
+            if (isSignUp) {
+              const existingUser = await prisma.user.findUnique({
+                where: {
+                  email: credentials.email,
+                },
+              });
+    
+              if (existingUser) {
+                throw new Error('User already exists');
+              }
 
-          const hashedPassword = await bcrypt.hash(credentials.password, 10);
-          const newUser = await prisma.user.create({
-            data: {
-              email: credentials.email,
-              organizationName: credentials.organizationName,
-              password: hashedPassword,
-            },
-          });
+              const existingOrganization = await prisma.user.findUnique({
+                  where : { organizationName : credentials.organizationName}
+              })
 
-          return newUser;
-        } else {
-          const user = await prisma.user.findUnique({
-            where: {
-              email: credentials.email,
-            },
-          });
+              if( existingOrganization ) {
+                  throw new Error("Organization name already exists")
+              }
 
-          if (!user) {
-            throw new Error('User does not exist');
-          }
-
-          const passwordMatch = await bcrypt.compare(credentials.password, user.password as string);
-          if (!passwordMatch) {
-            throw new Error('Incorrect password');
-          }
-
-          return user;
-        }
+    
+              const hashedPassword = await bcrypt.hash(credentials.password, 10);
+              const newUser = await prisma.user.create({
+                data: {
+                  email: credentials.email,
+                  organizationName: credentials.organizationName,
+                  password: hashedPassword,
+                },
+              });
+    
+              return newUser;
+            } else {
+              const user = await prisma.user.findUnique({
+                where: {
+                  email: credentials.email,
+                },
+              });
+    
+              if (!user) {
+                throw new Error('User does not exist');
+              }
+    
+              const passwordMatch = await bcrypt.compare(credentials.password, user.password as string);
+              if (!passwordMatch) {
+                throw new Error('Incorrect password');
+              }
+    
+              return user;
+            }
       },
     }),
   ],
