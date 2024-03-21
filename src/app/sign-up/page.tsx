@@ -53,7 +53,7 @@ const LoginPage = () => {
             toast.error(res.error);
             setLoading(false);
           } else {
-            toast.success("Logged in successfully");
+            toast.success("Account created succesfully");
             router.push('/');
           }
 

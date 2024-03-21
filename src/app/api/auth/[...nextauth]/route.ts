@@ -2,6 +2,7 @@ import NextAuth, { NextAuthOptions } from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import bcrypt from 'bcrypt';
 import prisma from "../../../../../prisma/prisma"; 
+import  createKey from "@/utils/generateKey";
 
 import CredentialsProvider from 'next-auth/providers/credentials';
 
@@ -46,15 +47,23 @@ const authOptions: NextAuthOptions = {
 
     
               const hashedPassword = await bcrypt.hash(credentials.password, 10);
+
               const newUser = await prisma.user.create({
                 data: {
                   email: credentials.email,
                   organizationName: credentials.organizationName,
                   password: hashedPassword,
                 },
+                
               });
-    
+
+              if(newUser) {
+                  const res : string   =   await  createKey(newUser.id)
+                  console.log(res)
+              };
+              
               return newUser;
+
             } else {
               const user = await prisma.user.findUnique({
                 where: {
