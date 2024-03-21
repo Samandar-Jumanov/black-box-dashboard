@@ -24,7 +24,7 @@ export const SideBarDrawer = () => {
     if(session) {
       signOut().then(() => {
         toast.success("Logged out successfully");
-        router.push("/all-coffes")
+        router.push("/")
       }).catch((err) => {
         console.log({ logOutError: err.message })
         toast.error("Something went wrong");
@@ -66,9 +66,9 @@ export const SideBarDrawer = () => {
           <Divider />
 
           <ListItemButton onClick={handleDrawerClose}>
-            <MuiLink underline="none" color="inherit" sx={{ display: 'flex', width: '100%' }} href="/growth">
+            <MuiLink underline="none" color="inherit" sx={{ display: 'flex', width: '100%' }} href="/progress">
               <ListItemIcon><ShowChartIcon /></ListItemIcon>
-              <ListItemText primary="Growth" />
+              <ListItemText primary="Progress" />
             </MuiLink>
           </ListItemButton>
           <Divider />
