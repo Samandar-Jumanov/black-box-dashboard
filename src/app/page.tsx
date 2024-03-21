@@ -33,7 +33,9 @@ const Home: NextPage = () => {
   }
 
   return (
-    <MainContainer  maxWidth="xs">
+    <MainContainer  maxWidth="xs" sx = {{
+        mt : 8 
+    }}>
       <CenteredBox>
         <Typography variant="h5" component="h1" gutterBottom>
           Get Started with Creating API Keys
