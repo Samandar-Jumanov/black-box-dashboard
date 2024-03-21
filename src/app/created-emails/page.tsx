@@ -1,7 +1,17 @@
 import React from 'react';
 import { Typography, Paper, Grid , Button  } from '@mui/material';
 
-const CreatedEmails = ({ message = "Your custom response ", creator = "Creator's Name", createdAt = "Creation Date"  , responseName ="Custom response "}) => {
+
+
+type Email = {
+   message : string ,
+   creator : string,
+   createdAt : string ,
+   responseName: string 
+};
+
+
+const CreatedEmails = ({ message = "Your custom response ", creator = "Creator's Name", createdAt = "Creation Date"  , responseName ="Custom response "} : Email ) => {
   return (
     <Paper elevation={3} style={{ padding: '20px', margin : "100px", borderColor : "black"}}>
       <Grid container spacing={2}>
