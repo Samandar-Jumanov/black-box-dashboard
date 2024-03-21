@@ -1,19 +1,16 @@
 import React from 'react';
-import { Typography, Paper, Grid , Button  } from '@mui/material';
+import { Typography, Paper, Grid, Button } from '@mui/material';
 
 
+const CreatedEmails = ( ) => {
+  
+  const  message = "Your custom response";
+  const  creator = "Creator's Name";
+  const  createdAt = "Creation Date";
+  const  responseName = "Custom response";
 
-type Email = {
-   message : string ,
-   creator : string,
-   createdAt : string ,
-   responseName: string 
-};
-
-
-const CreatedEmails = ({ message = "Your custom response ", creator = "Creator's Name", createdAt = "Creation Date"  , responseName ="Custom response "} : Email ) => {
   return (
-    <Paper elevation={3} style={{ padding: '20px', margin : "100px", borderColor : "black"}}>
+    <Paper elevation={3} style={{ padding: '20px', margin: '100px', borderColor: 'black' }}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="h5" component="h2">
@@ -36,7 +33,7 @@ const CreatedEmails = ({ message = "Your custom response ", creator = "Creator's
           </Typography>
         </Grid>
       </Grid>
-      <Button color="info" size="small" variant="contained">  Update </Button>
+      <Button color="info" size="small" variant="contained">Update</Button>
     </Paper>
   );
 };
