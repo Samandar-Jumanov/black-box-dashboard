@@ -7,7 +7,7 @@ export const LayoutPage = () => {
             <Box sx={{ textAlign: 'center', my: 12 }}>  
                
                 <Typography variant="body1" gutterBottom>
-                    This site is for you. Let's make everything better, together.
+                    This site is for you. Make   everything better, 
                 </Typography>
                 <Button variant="contained" color="primary" href="/sign-up">Sign Up</Button>
             </Box>
