@@ -90,7 +90,7 @@ export const SideBarDrawer = () => {
       ) : 
       (
         <ListItemButton onClick={handleSignOut}>
-        <Button color="info" variant="contained" size="medium"  sx={{ width: '100%' }}>
+        <Button color="info" variant="contained" size="medium"  sx={{ width: '100%' }} href='/login'>
          Sign in 
         </Button>
       </ListItemButton>

@@ -46,7 +46,7 @@ const LoginPage = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      <Typography component="h1" variant="h5" sx={{ mt: 8, mb: 4, textAlign: "center" }}>
+      <Typography component="h1" variant="h5" sx={{ mt: 12, mb: 4, textAlign: "center" }}>
         Welcome !
       </Typography> 
       <form  noValidate autoComplete="off" onSubmit={handleSubmit}>
@@ -118,6 +118,7 @@ const LoginPage = () => {
           </Grid>
         </Grid>
       </form>
+      <Button href="/login">  Already own an account  ? </Button>
     </Container>
   );
 };

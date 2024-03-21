@@ -1,52 +1,74 @@
 "use client"
-
 import React, { useState } from 'react';
-import { Button, TextField, Container, Typography, Grid, CircularProgress } from '@mui/material';
+import {
+  Button,
+  TextField,
+  Container,
+  Typography,
+  Grid,
+  CircularProgress,
+  Box,
+  Link
+} from '@mui/material';
 import { signIn } from "next-auth/react";
 import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
-
+import { useRouter } from "next/navigation"; 
 
 const LoginPage = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false); 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-  
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement> ) => {
+
+  const validateEmail = (email : string ) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\\.,;:\s@\"]+\.)+[^<>()[\]\\.,;:\s@\"]{2,})$/
+      );
+  };
+
+  const handleSubmit = async (e : any ) => {
     e.preventDefault();
-    setLoading(true)
-      try {
-
-        if(!email || !password  ) {
-           toast.error("Invalid inputs  ")
-           setLoading(false)
-           return
-        }
-
-        await signIn('credentials', {
-          email : email,
-          password : password ,
-          mode: 'signin'
-
-        }).then((res ) =>{
-          toast.success("Logged in succesfully")
-          router.push('/growth');
-        }).catch((err : any ) =>{
-          toast.error(err.message)
-        })
-        
-      }catch(error : any ){
-       toast.error(`Cannot create an account ${error.message}`)
+    setLoading(true);
+    try {
+      if (!email || !password) {
+        toast.error("Please enter all fields");
+        setLoading(false);
+        return;
       }
+
+      if (!validateEmail(email)) {
+        toast.error("Invalid email format");
+        setLoading(false);
+        return;
+      }
+
+      await signIn('credentials', {
+        redirect: false,
+        email,
+        password,
+      }).then((res : any ) => {
+        if (res.error) {
+          toast.error(res.error);
+          setLoading(false);
+        } else {
+          toast.success("Logged in successfully");
+          router.push('/progress');
+        }
+      });
+    } catch (error : any ) {
+      toast.error(`Login failed: ${error.message}`);
+      setLoading(false);
+    }
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Typography component="h1" variant="h5" sx={{ mt: 8, mb: 4, textAlign: "center" }}>
-        Welcome , one step to improvement
-      </Typography> 
-      <form  noValidate autoComplete="off" onSubmit={handleSubmit}>
+    <Container component="main" maxWidth="xs" sx={{ mt: 12}}>
+      <Typography component="h1" variant="h5" textAlign="center" mb={4}>
+        Welcome back, one step to improvement
+      </Typography>
+      <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
@@ -58,9 +80,10 @@ const LoginPage = () => {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              error={!validateEmail(email) && email.length > 0}
+              helperText={!validateEmail(email) && email.length > 0 ? "Please enter a valid email" : ""}
             />
           </Grid>
-
           <Grid item xs={12}>
             <TextField
               required
@@ -69,21 +92,20 @@ const LoginPage = () => {
               label="Password"
               type="password"
               id="password"
-              autoComplete="new-password"
+              autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </Grid>
-
           <Grid item xs={12}>
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, position: 'relative' }}
               disabled={loading}
+              sx={{ mt: 3, mb: 2, position: 'relative' }}
             >
-            Login 
+              Login
               {loading && (
                 <CircularProgress
                   size={24}
@@ -99,9 +121,12 @@ const LoginPage = () => {
             </Button>
           </Grid>
         </Grid>
-      </form>
+      </Box>
+      <Button href="/sign-up" >
+            Do not own an account? Sign up
+      </Button>
     </Container>
   );
 };
 
-export default LoginPage
+export default LoginPage;
