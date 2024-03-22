@@ -88,11 +88,11 @@ model Collections {
 model FeedBacks  {
   id           String  @id @default(cuid())
   userName      String 
-  bugName       String?
-  description    String?
+  userEmail     String 
+  description    String
 
   collectionId String ?
-  collection Collections ? @relation(fields: [collectionId ] , references: [ id ] , onDelete: Cascade)
+  collection Collections ? @relation(fields: [collectionId ] , references: [ id ] )
 
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
