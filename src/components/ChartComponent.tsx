@@ -10,6 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 
+
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 interface ChartComponentProps {
@@ -18,7 +19,6 @@ interface ChartComponentProps {
 }
 
 const ChartComponent: React.FC<ChartComponentProps> = ({ labels, data }) => {
-  const borderColor = data.length > 1 ? (data[data.length - 1] > data[data.length - 2] ? 'green' : 'red') : 'green';
 
   const borderWidth = 2; 
 
@@ -26,12 +26,12 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ labels, data }) => {
     labels,
     datasets: [
       {
-        label: 'Your progress since 2022',
+        label: 'Progress',
         data,
         fill: false,
-        borderColor,
         tension: 0.1,
         borderWidth,
+        borderColor :"red"
       },
     ],
   };

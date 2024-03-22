@@ -1,14 +1,9 @@
 "use client"
+
 import React, { useState } from 'react';
 import { Box, Grid, Paper, Typography, Chip, IconButton, Menu, MenuItem, styled } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert'; 
-
-const bugs = [
-  { id: 1, title: 'Bug 1', description: 'Description of Bug 1', status: 'Added', usersApplied: 3, collectedDate: '2024-03-01' },
-  { id: 2, title: 'Bug 2', description: 'Description of Bug 2', status: 'In Progress', usersApplied: 5, collectedDate: '2024-03-02' },
-  { id: 3, title: 'Bug 3', description: 'Description of Bug 3', status: 'Added', usersApplied: 2, collectedDate: '2024-03-03' },
-  { id: 4, title: 'Bug 4', description: 'Description of Bug 4', status: 'In Progress', usersApplied: 4, collectedDate: '2024-03-04' },
-];
+import bugs from '@/utils/dummyBugsData';
 
 const StyledInfoText = styled(Typography)(({ theme }) => ({
   marginTop: theme.spacing(2),
@@ -21,15 +16,35 @@ const Collections = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedBugId, setSelectedBugId] = useState <number | null>(null);
 
+
   const handleClick = (event : any   , id : number ) => {
     setAnchorEl(event.currentTarget);
     setSelectedBugId(id);
   };
 
-  const handleClose = () => {
+  const handleClose = ( id :  number  , status : string  ) => {
     setAnchorEl(null);
     setSelectedBugId(null);
+
+    if(status === "Added") {
+         console.log({
+           bug : bugs[id],
+           status : status,
+           message : "Should be removed from progress"
+         })
+    }else {
+      console.log({
+        bug : bugs[id],
+        status : status,
+        message : "Should be add to progess "
+      });
+    }
   };
+
+
+
+
+
 
   return (
     <Box sx={{ flexGrow: 1, padding: 8 }}>
@@ -57,11 +72,10 @@ const Collections = () => {
                 open={Boolean(anchorEl) && selectedBugId === bug.id}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>{bug.status === "Added" ? "Remove from Progress" : "Add to progress" }</MenuItem>
-                <MenuItem onClick={handleClose}> Remove from collections </MenuItem>
+                <MenuItem onClick={() => handleClose(bug.id , bug.status)}>{bug.status === "Added" ? "Remove from Progress" : "Add to progress" }</MenuItem>
               </Menu>
               <Typography variant="h6" component="h2">
-                {bug.title}
+                {bug.name}
               </Typography>
               <Typography variant="body2" gutterBottom>
                 {bug.description}
@@ -81,4 +95,4 @@ const Collections = () => {
   );
 };
 
-export default Collections;
+export default Collections

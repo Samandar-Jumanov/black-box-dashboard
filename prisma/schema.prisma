@@ -57,7 +57,6 @@ model ApiKey {
 
 
 
-
 model Progress {
   id   String @id @default(cuid())
   label String?
@@ -65,7 +64,7 @@ model Progress {
   collectionId String 
 
   user User @relation(fields: [userId] , references: [ id ])
-  collections Collections[] // usage for chart 
+  collections Collections[] 
 
 }
 
@@ -74,14 +73,15 @@ model Collections {
   id     String  @id @default(cuid())
   name   String 
   progressId String?
+  usersApllied Int[] @default([0])
 
   progress Progress ?  @relation(fields: [ progressId] , references: [ id ])
   feedbacks FeedBacks[]
-
+  updates CollectionUpdates[]
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
-
 }
+
 
 
 
@@ -96,4 +96,12 @@ model FeedBacks  {
 
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
+}
+
+model CollectionUpdates {
+   id   String @id @default(cuid())
+   collectionId  String
+   
+   collection Collections @relation(fields: [collectionId] , references: [ id ])
+   createdAt  DateTime @default(now())
 }
