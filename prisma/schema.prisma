@@ -46,7 +46,7 @@ model ApiKey {
   id           String  @id @default(cuid())
   name         String 
   description  String?
-  key           String
+  key           String @unique
   userId  String?  
   user    User?   @relation(fields: [userId] , references: [id] ,onDelete: Cascade)
 
