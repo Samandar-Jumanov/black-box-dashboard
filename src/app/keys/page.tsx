@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import { LayoutPage } from '@/components/layout';
 import { ApiKey } from '@/types/apiKey';
+import { format } from 'date-fns';
 
 const ApiKeys = () => {
   const [apiKeys, setApiKeys] = useState<ApiKey[] | null>(null);
@@ -80,7 +81,7 @@ const ApiKeys = () => {
             }>
               <ListItemText
                 primary={key.name}
-                secondary={`API Key: ${key.key} - Description: ${key.description} - Created on ${key.createdAt}`}
+                secondary={`API Key: ${key.key} - Description: ${key.description} - Created on ${format(new Date(key.createdAt) , 'MMMM d, yyyy')}`}
               />
             </ListItem>
           ))
