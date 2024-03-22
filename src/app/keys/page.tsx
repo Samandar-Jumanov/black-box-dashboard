@@ -1,36 +1,43 @@
 "use client";
-
 import React, { useState, useEffect } from 'react';
 import { Typography, List, ListItem, ListItemText, Paper, IconButton, Tooltip, Alert, CircularProgress } from '@mui/material';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
-import { toast } from "react-hot-toast";
+import { toast } from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import { LayoutPage } from '@/components/layout';
-import { getUserApiKey } from '@/actions/user';
 import { ApiKey } from '@/types/apiKey';
 
 const ApiKeys = () => {
   const [apiKeys, setApiKeys] = useState<ApiKey[] | null>(null);
-  const [isLoading, setIsLoading] = useState(true); // State to manage loading status
+  const [isLoading, setIsLoading] = useState(true);
   const { data: session } = useSession();
-
   useEffect(() => {
     if (session?.user?.email) {
       const fetchApiKey = async () => {
+        setIsLoading(true); 
         try {
-          const res: ApiKey[] | null = await getUserApiKey(session?.user?.email as string );
-          setApiKeys(res);
+          const encodedEmail = encodeURIComponent(session?.user?.email as string );
+          const response = await fetch(`http://localhost:3000/api/key?userEmail=${encodedEmail}`, {
+            method: "GET",
+          });
+          if (!response.ok) throw new Error('Network response was not ok');
+          const data = await response.json();
+          setApiKeys(data);
         } catch (err) {
           console.error('Error fetching API Key:', err);
+          toast.error("Failed to fetch API keys.");
+          setApiKeys(null); 
         } finally {
-          setIsLoading(false); // Set loading to false after fetching
+          setIsLoading(false);
         }
       };
       fetchApiKey();
     } else {
-      setIsLoading(false); // Also set loading to false if there's no session
+      setIsLoading(false); 
     }
-  }, [session?.user?.email]);
+  }, [session?.user?.email]); 
+
+  
 
   const copyToClipboard = (apiKey: string) => {
     navigator.clipboard.writeText(apiKey).then(() => {

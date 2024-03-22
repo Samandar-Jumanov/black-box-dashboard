@@ -19,6 +19,14 @@ const authOptions: NextAuthOptions = {
       },
 
       async authorize(credentials: any) {
+
+        try {
+              await prisma.$connect();
+              console.log("Database connected")
+        }catch(err) {
+                  throw new Error("Check your network connection")
+        }
+
         if (!credentials.email || !credentials.password) {
           throw new Error('Please enter an email and password');
         }
@@ -82,6 +90,7 @@ const authOptions: NextAuthOptions = {
     
               return user;
             }
+            
       },
     }),
   ],

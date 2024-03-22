@@ -38,14 +38,14 @@ const Home: NextPage = () => {
     }}>
       <CenteredBox>
         <Typography variant="h5" component="h1" gutterBottom>
-          Get Started with Creating API Keys
+          Get Started with  API Keys
         </Typography>
         <Typography variant="body1" gutterBottom>
-          Creating an API key enables you to harness the full potential of our services. 
+          GET an API key enables you to harness the full potential of our services. 
           Discover tools and resources to pinpoint and address areas for improvement.
         </Typography>
-        <StyledButton variant="contained" size="large" onClick={() => router.push("/api-key")}>
-          Create an API Key
+        <StyledButton variant="contained" size="large" onClick={() => router.push("/keys")}>
+          GET an API Key
         </StyledButton>
       </CenteredBox>
     </MainContainer>
