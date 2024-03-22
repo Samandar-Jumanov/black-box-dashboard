@@ -7,7 +7,6 @@ import React, { createContext, useContext, Dispatch, SetStateAction, useState, R
 interface ContextProps {
     setOpen : Dispatch<SetStateAction<boolean>>;
     open : boolean,
-    
    
 }
 

@@ -20,6 +20,7 @@ model User {
 
   apiKeys   ApiKey[]
   accounts Account[]
+  progress Progress[]
 }
 
 model Account {
@@ -49,7 +50,50 @@ model ApiKey {
   userId  String?  
   user    User?   @relation(fields: [userId] , references: [id] ,onDelete: Cascade)
 
- createdAt         DateTime  @default(now())
+  createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
   
+}
+
+
+
+
+model Progress {
+  id   String @id @default(cuid())
+  label String?
+  userId String
+  collectionId String 
+
+  user User @relation(fields: [userId] , references: [ id ])
+  collections Collections[] // usage for chart 
+
+}
+
+
+model Collections {
+  id     String  @id @default(cuid())
+  name   String 
+  progressId String?
+
+  progress Progress ?  @relation(fields: [ progressId] , references: [ id ])
+  feedbacks FeedBacks[]
+
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+}
+
+
+
+model FeedBacks  {
+  id           String  @id @default(cuid())
+  userName      String 
+  bugName       String?
+  description    String?
+
+  collectionId String 
+  collection Collections @relation(fields: [collectionId ] , references: [ id ] , onDelete: Cascade)
+
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 }
