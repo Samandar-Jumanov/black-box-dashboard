@@ -17,8 +17,8 @@ const ApiKeys = () => {
       const fetchApiKey = async () => {
         setIsLoading(true); 
         try {
-          const encodedEmail = encodeURIComponent(session?.user?.email as string );
-          const response = await fetch(`https://black-box-dashboard.vercel.app/api/key/${encodedEmail}`, {
+          const email = session?.user?.email as string
+          const response = await fetch(`https://black-box-dashboard.vercel.app/api/key/${email}`, {
             method: "GET",
           });
           if (!response.ok) throw new Error('Network response was not ok');
