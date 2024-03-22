@@ -24,7 +24,14 @@ export const POST = async ( request : Request , response : Response) =>{
               }
         })
 
-        return new Response(JSON.stringify(newFeedBack) , { status : 201})
+        const responseData = {
+           userEmail : newFeedBack.userEmail,
+           userName : newFeedBack.userName,
+           description : newFeedBack.description
+        }
+
+        
+        return new Response(JSON.stringify(responseData) , { status : 201})
     }catch( err : any ) {
         console.log({
              error : err 
