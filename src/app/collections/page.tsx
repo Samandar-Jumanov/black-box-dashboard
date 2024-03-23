@@ -5,12 +5,16 @@ import { Box, Grid, Paper, Typography, Chip, IconButton, Menu, MenuItem, styled 
 import MoreVertIcon from '@mui/icons-material/MoreVert'; 
 import bugs from '@/utils/dummyBugsData';
 
+
 const StyledInfoText = styled(Typography)(({ theme }) => ({
   marginTop: theme.spacing(2),
   marginBottom: theme.spacing(2),
   fontStyle: 'italic',
   color: theme.palette.text.secondary,
 }));
+
+
+
 
 const Collections = () => {
   const [anchorEl, setAnchorEl] = useState(null);
