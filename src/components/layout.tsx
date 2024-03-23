@@ -3,7 +3,7 @@ import { Button, Typography, Box, Container } from "@mui/material";
 
 export const LayoutPage = () => {
     return (
-        <Container maxWidth="sm">
+        <Container maxWidth="md">
             <Box sx={{
                 textAlign: 'center',
                 my: 12,
@@ -13,7 +13,7 @@ export const LayoutPage = () => {
                 boxShadow: '0 3px 5px 2px rgba(105, 105, 105, .3)',
             }}>
                 <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 'bold', mb: 2 }}>
-                    Join Our Bug-Tracking Community!
+                    Join us! Find your weak area
                 </Typography>
                 
                 <Typography variant="subtitle1" sx={{ mb: 2 }}>
@@ -21,7 +21,7 @@ export const LayoutPage = () => {
                 </Typography>
 
                 <Typography variant="body1" paragraph>
-                    This platform empowers users to report bugs and share feedback, fostering continuous improvement. Key features include:
+                    This platform empowers users to report bugs and share feedback, fostering continuous improvement
                 </Typography>
                 
                 <Box sx={{ textAlign: 'left', ml: 3 }}>

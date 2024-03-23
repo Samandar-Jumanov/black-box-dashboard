@@ -7,6 +7,7 @@ import BugReportIcon from '@mui/icons-material/BugReport'; // For Collected Prob
 import EmailIcon from '@mui/icons-material/Email'; // For Created Emails
 import ShowChartIcon from '@mui/icons-material/ShowChart'; // For Growth
 import VpnKeyIcon from '@mui/icons-material/VpnKey'; // For API Keys
+import ArticleIcon from '@mui/icons-material/Article';
 import LogoutIcon from '@mui/icons-material/Logout';
 import FeedbackIcon from "@mui/icons-material/Feedback"
 import { signOut, useSession } from 'next-auth/react';
@@ -23,8 +24,8 @@ export const SideBarDrawer = () => {
   const handleSignOut = async () => {
     if(session) {
       signOut().then(() => {
-        toast.success("Logged out successfully");
         router.push("/")
+        toast.success("Logged out successfully");
       }).catch((err) => {
         console.log({ logOutError: err.message })
         toast.error("Something went wrong");
@@ -36,8 +37,18 @@ export const SideBarDrawer = () => {
     setOpen(false);
   };
 
+
   return (
     <List>
+
+         <ListItemButton onClick={handleDrawerClose}>
+            <MuiLink underline="none" color="inherit" sx={{ display: 'flex', width: '100%' }} href="/docs">
+              <ListItemIcon><ArticleIcon /></ListItemIcon>
+              <ListItemText primary="See documentation" />
+            </MuiLink>
+          </ListItemButton>
+          <Divider />
+
       { session ? (
         <>
           <ListItemButton onClick={handleDrawerClose}>
@@ -58,7 +69,7 @@ export const SideBarDrawer = () => {
 
 
           <ListItemButton onClick={handleDrawerClose}>
-            <MuiLink underline="none" color="inherit" sx={{ display: 'flex', width: '100%' }} href="/created-emails">
+            <MuiLink underline="none" color="inherit" sx={{ display: 'flex', width: '100%' }} href="/emails">
               <ListItemIcon><EmailIcon /></ListItemIcon>
               <ListItemText primary="Created emails" />
             </MuiLink>
@@ -89,13 +100,20 @@ export const SideBarDrawer = () => {
         </>
       ) : 
       (
-        <ListItemButton onClick={handleSignOut}>
+          <> 
+          
+          <ListItemButton onClick={handleSignOut}>
         <Button color="info" variant="contained" size="medium"  sx={{ width: '100%' }} href='/login'>
          Sign in 
         </Button>
       </ListItemButton>
+
+   
+          </>
      )
       }
+
+
      
     </List>
   );
