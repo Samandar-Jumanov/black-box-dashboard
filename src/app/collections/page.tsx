@@ -50,7 +50,7 @@ const Collections = () => {
   useEffect(() => {
     async function fetchAllCollections(){
         if(session?.user?.email) { 
-            const url = `http://localhost:3000/api/all-collections/${session.user.email}`;
+            const url = `https://black-box-dashboard.vercel.app/all-collections/${session.user.email}`;
             try {
                 const response = await fetch(url);
                 if (!response.ok) { // Check if response is ok (status in the range 200-299)
