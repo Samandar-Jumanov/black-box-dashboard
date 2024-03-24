@@ -1,6 +1,6 @@
 
 import  {  IUser } from "./user"
-
+import  { IFeedBack } from "./feedBack"
 
 export  type ICollection = {
       id  : string ,
@@ -10,7 +10,7 @@ export  type ICollection = {
       userId: string ,
       description ? : string,
       user : IUser,
-      feedbacks : [],
+      feedbacks : IFeedBack[],
       appliedEmails : [],
       activeCollections  : [],
       updates : [],

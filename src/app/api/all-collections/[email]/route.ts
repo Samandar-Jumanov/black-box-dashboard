@@ -14,9 +14,13 @@ export const GET = async (request : Request  , { params } : any ) : Promise<Resp
     try {
         const user: IUser | any  = await prisma.user.findUnique({
             where: { email : userEmail },
-            include: {
-                collections: true,
-            },
+           include : {
+              collections : {
+                  include : {
+                      feedbacks : true 
+                  }
+              }
+           }            
         });
 
      if (!user) throw new Error("User not found");
@@ -26,6 +30,8 @@ export const GET = async (request : Request  , { params } : any ) : Promise<Resp
          userCollections : userCollections
      });
 
+     
+     
      return new Response(JSON.stringify(userCollections) , { status : 200});
 
     } catch (err: any) {

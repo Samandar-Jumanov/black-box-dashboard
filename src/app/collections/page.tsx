@@ -1,124 +1,73 @@
 "use client"
-
-import React, { useState  , useEffect } from 'react';
-import { Box, Grid, Paper, Typography, Chip, IconButton, Menu, MenuItem, styled } from '@mui/material';
-import MoreVertIcon from '@mui/icons-material/MoreVert'; 
-import bugs from '@/utils/dummyBugsData';
+import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import axios from "axios"
+import { UserCollections } from '@/components/userCollections';
 import { ICollection } from '@/types/collections';
-const StyledInfoText = styled(Typography)(({ theme }) => ({
-  marginTop: theme.spacing(2),
-  marginBottom: theme.spacing(2),
-  fontStyle: 'italic',
-  color: theme.palette.text.secondary,
-}));
-
-
-
+import Loading from "../loading";
+import { toast } from "react-hot-toast"
 
 const Collections = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedBugId, setSelectedBugId] = useState <string | null>(null);
-  const { data : session } = useSession();
-  const [ userCollections , setUserCollections ] = useState<ICollection[] | null >(null)
+  const { data: session } = useSession();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedBugId, setSelectedBugId] = useState<string | null>(null);
+  const [userCollections, setUserCollections] = useState<ICollection[] | null>(null);
+  const [isLoading, setIsLoading] = useState(true); 
 
+  
+  useEffect(() => {
+    async function fetchAllCollections() {
+      if (session?.user?.email) {
+        const url = `https://black-box-dashboard.vercel.app/api/all-collections/${session.user.email}`;
+        try {
+          const response = await fetch(url);
+          if (!response.ok) {
+            toast.error("Something went wrong");
+            return
+          };
 
-  const handleClick = (event : any   , id : string  ) => {
+          const data = await response.json();
+          setUserCollections(data);
+        } catch (error) {
+          console.error("There was a problem with the fetch operation:", error);
+        } finally {
+          setIsLoading(false); 
+        }
+      } else {
+        setIsLoading(false); 
+      }
+    }
+
+    fetchAllCollections();
+  }, [session?.user?.email]);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>, id: string) => {
     setAnchorEl(event.currentTarget);
     setSelectedBugId(id);
   };
 
-  const handleClose = ( id :  any   , status : string  ) => {
+  const handleClose = (id: string, status: string) => {
     setAnchorEl(null);
     setSelectedBugId(null);
-
-    if(status === "Added") {
-         console.log({
-           status : status,
-           message : "Should be removed from progress"
-         })
-    }else {
-      console.log({
-        status : status,
-        message : "Should be add to progess "
-      });
-    }
   };
 
-
-  useEffect(() => {
-    async function fetchAllCollections(){
-        if(session?.user?.email) { 
-            const url = `https://black-box-dashboard.vercel.app/api/all-collections/${session.user.email}`;
-            try {
-                const response = await fetch(url);
-                if (!response.ok) { // Check if response is ok (status in the range 200-299)
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                console.log(data); 
-                setUserCollections(data);
-            } catch (error) {
-                console.error("There was a problem with fetch operation:", error);
-            }
-        } else {
-            console.log("Session or user email is undefined.");
-        }
-    }
-
-    fetchAllCollections();
-}, [session?.user?.email]); 
-
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
-    <Box sx={{ flexGrow: 1, padding: 8 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Bug Collections
-      </Typography>
-      <StyledInfoText>
-        These collections are gathered by your users.
-      </StyledInfoText>
-      <Grid container spacing={2}>
-        {userCollections?.map((bug) => (
-          <Grid item xs={12} sm={6} key={bug.id} maxWidth="xs">
-            <Paper elevation={3} sx={{ padding: 2, position: 'relative' }}>
-              <IconButton
-                aria-label="settings"
-                sx={{ position: 'absolute', right: 8, top: 8 }}
-                onClick={(e) => handleClick(e, "bug.id")}
-              >
-                <MoreVertIcon />
-              </IconButton>
-              <Menu
-                id="simple-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl) && selectedBugId === "bug.id" }
-                onClose={handleClose}
-              >
-                <MenuItem onClick={() => handleClose("bug.id" , bug.status)}>{bug.status === "Added" ? "Remove from Progress" : "Add to progress" }</MenuItem>
-              </Menu>
-              <Typography variant="h6" component="h2">
-                {bug.name}
-              </Typography>
-              <Typography variant="body2" gutterBottom>
-                {bug?.description || "This area should hold bug description "} 
-              </Typography>
-              <Typography variant="body2" gutterBottom>
-                Users Applied: {bug.usersApplied}
-              </Typography>
-              <Typography variant="body2" gutterBottom>
-                Collected Date: {bug.createdAt}
-              </Typography>
-              <Chip label={bug.status} color={bug.status === 'Added' ? 'success' : 'warning'} sx={{ marginTop: 1 }} />
-            </Paper>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+    <>
+      {userCollections && userCollections.map((bug: ICollection) => (
+        <UserCollections
+          key={bug.id} 
+          bug={bug}
+          handleClick={handleClick}
+          handleClose={handleClose}
+          selectedBugId={selectedBugId}
+          anchorEl={anchorEl}
+        />
+      ))}
+    </>
   );
-
 };
 
-export default Collections
+export default Collections;
