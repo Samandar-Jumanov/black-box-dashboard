@@ -1,10 +1,9 @@
 "use client"
 
-import React from 'react';
+import React , { useState } from 'react';
 import { Box } from "@mui/material";
-import ChartComponent from '@/components/ChartComponent'; // Ensure this points to your ChartComponent file
+import ChartComponent from '@/components/ChartComponent'; 
 
-// Assuming this bugs data is imported or defined somewhere in your project
 const bugs = [
   { id: 1, name: 'Bug 1', description: 'Description of Bug 1', status: 'Added', usersApplied: [3, 1, 6, 4], collectedDate: '2024-03-01' },
   { id: 2, name: 'Bug 2', description: 'Description of Bug 2', status: 'In Progress', usersApplied: [1, 2, 77, 4], collectedDate: '2024-03-02' },
@@ -13,15 +12,34 @@ const bugs = [
 ];
 
 const Progress = () => {
+  const [ activeProgresses , setActiveProgresses] = useState(bugs)
+
+
+  // useEffect(() => {
+  //      async function fetchProgresses(){
+  //       try {
+  //          const res = await fetch(`http://localhost:3000/api/getActive/iam@gmail.com`)
+  //           console.log(res.json());
+
+
+  //       }catch(err : any ){
+  //            console.log(err)
+  //       }
+  //      }
+  //      fetchProgresses();
+
+       
+  // } , [])
+  
   
   const labels = ['Jan', 'Feb', 'Mar', 'Apr'];
 
   return (
     <Box sx={{ padding: "60px", marginTop: "100px" }}>
-      {bugs.map((bug, index) => {
+      {activeProgresses.map((bug, index) => {
         return (
           <Box key={bug.id} mb={5}>
-            <ChartComponent labels={labels} data={bug.usersApplied} />
+            <ChartComponent labels={labels} data={bug.usersApplied} monthIndex={3} />
           </Box>
         );
       })}

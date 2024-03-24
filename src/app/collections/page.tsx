@@ -13,11 +13,12 @@ const Collections = () => {
   const [userCollections, setUserCollections] = useState<ICollection[] | null>(null);
   const [isLoading, setIsLoading] = useState(true); 
 
-  
+  const vercelUrl = "https://black-box-dashboard.vercel.app"
+
   useEffect(() => {
     async function fetchAllCollections() {
       if (session?.user?.email) {
-        const url = `https://black-box-dashboard.vercel.app/api/all-collections/${session.user.email}`;
+        const url = `http://localhost:3000/api/all-collections/${session.user.email}`;
         try {
           const response = await fetch(url);
           if (!response.ok) {
@@ -45,9 +46,30 @@ const Collections = () => {
     setSelectedBugId(id);
   };
 
-  const handleClose = (id: string, status: string) => {
+  const handleClose = async (id: string, status: string) => {
+
     setAnchorEl(null);
     setSelectedBugId(null);
+    if(status === "Remove") {
+         return 
+    }
+
+      try {
+        const bodyRequest = {
+          email : session?.user?.email,
+          collectionId : id 
+     }
+     const result = await fetch("http://localhost:3000/api/add-progress", {
+        method : "Post",
+        body : JSON.stringify(bodyRequest)  
+     })
+
+        console.log({
+           result : result 
+        })
+      }catch(err : any ){
+           console.log(err)
+      }
   };
 
   if (isLoading) {
@@ -64,6 +86,7 @@ const Collections = () => {
           handleClose={handleClose}
           selectedBugId={selectedBugId}
           anchorEl={anchorEl}
+          email ={ session?.user?.email as string }
         />
       ))}
     </>

@@ -26,11 +26,6 @@ export const GET = async (request : Request  , { params } : any ) : Promise<Resp
      if (!user) throw new Error("User not found");
 
      const  userCollections : ICollection [] = user.collections
-     console.log({
-         userCollections : userCollections
-     });
-
-     
      
      return new Response(JSON.stringify(userCollections) , { status : 200});
 

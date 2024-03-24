@@ -10,16 +10,20 @@ import {
   Legend,
 } from 'chart.js';
 
+import getRemainingMonths from '@/utils/calculateMonth';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 interface ChartComponentProps {
   labels: string[];
   data: number[];
+  monthIndex : number 
 }
 
-const ChartComponent: React.FC<ChartComponentProps> = ({ labels, data }) => {
+const ChartComponent: React.FC<ChartComponentProps> = ({ labels, data  , monthIndex  }) => {
 
+
+  const remainingMonth : string[] = getRemainingMonths(monthIndex)
   const borderWidth = 2; 
 
   const chartData = {

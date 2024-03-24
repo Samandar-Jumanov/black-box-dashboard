@@ -72,7 +72,6 @@ model Collections {
   user  User @relation(fields: [userId] , references: [id])
   feedbacks FeedBacks[]
   appliedEmails Emails[]
-  activeCollections ActiveCollection[]
 
   updates CollectionUpdates[]
 
@@ -81,11 +80,6 @@ model Collections {
 }
 
 
-model ActiveCollection {
-  id   String @id @default(cuid())
-  collectionId  String 
-  collection Collections @relation(fields: [collectionId] , references: [id] , onDelete:  Cascade)
-}
 
 
 

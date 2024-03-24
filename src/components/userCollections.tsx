@@ -10,6 +10,7 @@ interface UserCollectionsProps {
   handleClose: (id: string, status: string) => void;
   anchorEl: null | HTMLElement;
   selectedBugId: string | null;
+  email : string 
 }
 
 export const UserCollections: React.FC<UserCollectionsProps> = ({
@@ -18,6 +19,7 @@ export const UserCollections: React.FC<UserCollectionsProps> = ({
   handleClose,
   anchorEl,
   selectedBugId,
+  email 
 }) => {
   return (
     <Box sx={{ flexGrow: 1, padding: 8 }} key={bug.id}>
