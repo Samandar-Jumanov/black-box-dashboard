@@ -2,6 +2,8 @@ import redisClient from "@/utils/connectRedis";
 import prisma from "../../prisma/prisma"
 
 
+// This is used to get all Feedbacks and sort them out based on the collections 
+
 export const getAllFeedBacks = async (  ) =>{
 
     try {

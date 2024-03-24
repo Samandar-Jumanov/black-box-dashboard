@@ -1,5 +1,6 @@
 
 import { ApiKey } from "./apiKey";
+import { ICollection } from "./collections";
 
 export type IUser = {
      id : string 
@@ -8,4 +9,5 @@ export type IUser = {
      createdAt : string ,
      updatedAt : string ,
      apiKeys  : ApiKey[] | any 
+     collections : ICollection[]
 };
