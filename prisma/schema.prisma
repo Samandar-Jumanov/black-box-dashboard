@@ -20,8 +20,8 @@ model User {
 
   apiKeys   ApiKey[]
   accounts Account[]
-  progress Progress[]
   emails Emails[]
+  collections Collections[]
 
 }
 
@@ -59,31 +59,33 @@ model ApiKey {
 
 
 
-model Progress {
-  id   String @id @default(cuid())
-  label String?
-  userId String
-  collectionId String 
-
-  user User @relation(fields: [userId] , references: [ id ])
-  collections Collections[] 
-
-}
 
 
 model Collections {
   id     String  @id @default(cuid())
   name   String 
-  progressId String?
   usersApllied Int[] @default([0])
+  status  String @default("In progress")
+  userId  String 
 
-  progress Progress ?  @relation(fields: [ progressId] , references: [ id ])
+
+  user  User @relation(fields: [userId] , references: [id])
   feedbacks FeedBacks[]
+  appliedEmails Emails[]
+  activeCollections ActiveCollection[]
+
   updates CollectionUpdates[]
+
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 }
 
+
+model ActiveCollection {
+  id   String @id @default(cuid())
+  collectionId  String 
+  collection Collections @relation(fields: [collectionId] , references: [id] , onDelete:  Cascade)
+}
 
 
 
@@ -100,6 +102,20 @@ model FeedBacks  {
   updatedAt         DateTime  @updatedAt
 }
 
+
+model Emails {
+   id     String @id @default(cuid())
+   responseText  String 
+   collectionId  String 
+
+   appliedCollection Collections @relation(fields: [collectionId] , references: [id]) 
+
+   userId String 
+   user  User @relation(fields: [userId] , references: [id])
+}
+
+
+
 model CollectionUpdates {
    id   String @id @default(cuid())
    collectionId  String
@@ -109,12 +125,3 @@ model CollectionUpdates {
 }
 
 
-
-model Emails {
-   id     String @id @default(cuid())
-   userId String 
-   responseText  String 
-   applied String 
-
-   user  User @relation(fields: [userId] , references: [id])
-}
