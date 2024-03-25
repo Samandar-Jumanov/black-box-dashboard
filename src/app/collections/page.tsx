@@ -14,11 +14,12 @@ const Collections = () => {
   const [isLoading, setIsLoading] = useState(true); 
 
   const vercelUrl = "https://black-box-dashboard.vercel.app"
+  const localhost = "http://localhost:3000"
 
   useEffect(() => {
     async function fetchAllCollections() {
       if (session?.user?.email) {
-        const url = `http://localhost:3000/api/all-collections/${session.user.email}`;
+        const url = `${vercelUrl}/api/all-collections/${session.user.email}`;
         try {
           const response = await fetch(url);
           if (!response.ok) {
