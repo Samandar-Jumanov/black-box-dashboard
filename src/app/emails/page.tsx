@@ -45,7 +45,6 @@ const CreatedEmails = () => {
       </Box>
     );
   }
-git 
   if (!responseEmails) {
     return (
       <Box mt="130px" textAlign="center">
