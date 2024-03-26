@@ -72,7 +72,7 @@ model Collections {
 
   user  User @relation(fields: [userEmail] , references: [email])
   feedbacks FeedBacks[]
-  appliedEmails Emails[]
+  // appliedEmails Emails[]
 
   updates CollectionUpdates[]
 
@@ -103,10 +103,14 @@ model Emails {
    responseText  String 
    collectionName  String 
    userEmail String 
+   userId String 
 
-   appliedCollection Collections @relation(fields: [collectionName] , references: [name]) 
+  //  appliedCollection Collections @relation(fields: [collectionName] , references: [name]) 
 
-   user  User @relation(fields: [userEmail] , references: [email])
+   user  User @relation(fields: [userId] , references: [id])
+   
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 }
 
 

@@ -1,10 +1,13 @@
-"use client"
+"use client";
+
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { UserCollections } from '@/components/userCollections';
 import { ICollection } from '@/types/collections';
 import Loading from "../loading";
 import { toast } from "react-hot-toast"
+import { Typography , Box } from "@mui/material";
+
 
 const Collections = () => {
   const { data: session } = useSession();
@@ -12,14 +15,12 @@ const Collections = () => {
   const [selectedBugId, setSelectedBugId] = useState<string | null>(null);
   const [userCollections, setUserCollections] = useState<ICollection[] | null>(null);
   const [isLoading, setIsLoading] = useState(true); 
-
-  const vercelUrl = "https://black-box-dashboard.vercel.app"
-  const localhost = "http://localhost:3000"
+ 
 
   useEffect(() => {
     async function fetchAllCollections() {
       if (session?.user?.email) {
-        const url = `${localhost}/api/all-collections/${session.user.email}`;
+        const url = `https://black-box-dashboard.vercel.app/api/all-collections/${session.user.email}`;
         try {
           const response = await fetch(url);
           if (!response.ok) {
@@ -75,6 +76,14 @@ const Collections = () => {
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  if (!userCollections) {
+    return (
+      <Box mt="40px" textAlign="center">
+        <Typography variant="h5">No emails found</Typography>
+      </Box>
+    );
   }
 
   return (
