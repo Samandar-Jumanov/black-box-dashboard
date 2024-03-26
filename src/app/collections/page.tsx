@@ -78,7 +78,7 @@ const Collections = () => {
     return <Loading />;
   }
 
-  if (!userCollections) {
+  if (!userCollections || userCollections.length <= 0) {
     return (
       <Box mt="130px" textAlign="center">
         <Typography variant="h5">No collections found yet | Make sure you integrated your website with our package</Typography>
