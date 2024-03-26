@@ -21,7 +21,7 @@ const ApiKeys = () => {
         setIsLoading(true); 
         try {
           const email = session?.user?.email as string
-          const response = await fetch(`${localhost}/api/key/${email}`, {
+          const response = await fetch(`${vercelUrl}/api/key/${email}`, {
             method: "GET",
           });
           if (!response.ok) throw new Error('Network response was not ok');
