@@ -38,14 +38,15 @@ const CreatedEmails = () => {
   }, [session?.user?.email]);
 
 
-  if (isLoading) {
+  if (isLoading ) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" height="100vh" mt="100px">
         <CircularProgress />
       </Box>
     );
-  }
-  if (!responseEmails) {
+  };
+
+  if (!responseEmails ||  responseEmails?.length <= 0 ) {
     return (
       <Box mt="130px" textAlign="center">
         <Typography variant="h5">No emails found</Typography>
