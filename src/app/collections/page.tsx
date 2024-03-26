@@ -61,7 +61,7 @@ const Collections = () => {
           email : session?.user?.email,
           collectionId : id 
      }
-     const result = await fetch("http://localhost:3000/api/add-progress", {
+     const result = await fetch("https://black-box-dashboard.vercel.app/api/add-progress", {
         method : "Post",
         body : JSON.stringify(bodyRequest)  
      })
