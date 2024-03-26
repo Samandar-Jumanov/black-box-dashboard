@@ -37,18 +37,21 @@ const CreatedEmails = () => {
     }
   }, [session?.user?.email]);
 
+
   if (isLoading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+      <Box display="flex" justifyContent="center" alignItems="center" height="100vh" mt="100px">
         <CircularProgress />
       </Box>
     );
   }
 
-  if (!responseEmails) {
+  let zero = 0 
+  if (zero === 0) {
     return (
-      <Box mt="40px" textAlign="center">
+      <Box mt="130px" textAlign="center">
         <Typography variant="h5">No emails found</Typography>
+        <Button  variant="contained" size="large" onClick={() => router.push("/emails/create")}> Create one </Button>
       </Box>
     );
   }

@@ -80,8 +80,8 @@ const Collections = () => {
 
   if (!userCollections) {
     return (
-      <Box mt="40px" textAlign="center">
-        <Typography variant="h5">No emails found</Typography>
+      <Box mt="130px" textAlign="center">
+        <Typography variant="h5">No collections found yet | Make sure you integrated your website with our package</Typography>
       </Box>
     );
   }

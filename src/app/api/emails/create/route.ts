@@ -18,9 +18,27 @@ export const POST = async ( request : Request ) =>{
             include : { collections : true }
         });
 
+        
+
         if (!user) {
             throw new Error("User not found");
         }
+
+
+        const collection = await prisma.collections.findUnique({
+              where : { name : collectionName}
+        });
+
+        if(!collection) {
+              throw new Error("User does not have this collections")
+        }
+
+        const isIncludes  = user.collections.some(userCollection => userCollection.id === collection.id);
+
+        if(!isIncludes) {
+               throw new Error("User collections doesnt have include this collection")
+        };
+
 
         const newEmail = await prisma.emails.create({
             data: {
@@ -28,6 +46,7 @@ export const POST = async ( request : Request ) =>{
                 userEmail: userEmail,
                 responseText: responseText,
                 userId: user.id, 
+                collectionId : collection.id
             },
         });
 
