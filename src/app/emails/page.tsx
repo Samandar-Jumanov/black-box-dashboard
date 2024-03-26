@@ -45,9 +45,8 @@ const CreatedEmails = () => {
       </Box>
     );
   }
-
-  let zero = 0 
-  if (zero === 0) {
+git 
+  if (!responseEmails) {
     return (
       <Box mt="130px" textAlign="center">
         <Typography variant="h5">No emails found</Typography>
