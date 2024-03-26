@@ -19,7 +19,7 @@ const Collections = () => {
   useEffect(() => {
     async function fetchAllCollections() {
       if (session?.user?.email) {
-        const url = `${vercelUrl}/api/all-collections/${session.user.email}`;
+        const url = `${localhost}/api/all-collections/${session.user.email}`;
         try {
           const response = await fetch(url);
           if (!response.ok) {

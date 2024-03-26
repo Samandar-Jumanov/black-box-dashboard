@@ -9,11 +9,12 @@ datasource db {
 
 model User {
   id                String    @id @default(cuid())
-  organizationName  String?   @unique
-  email             String?   @unique
+  organizationName  String  @unique
+  email             String  @unique
+  password          String
+  
   emailVerified     DateTime?
   image             String?
-  password          String?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 
@@ -63,13 +64,13 @@ model ApiKey {
 
 model Collections {
   id     String  @id @default(cuid())
-  name   String 
-  usersApllied Int[] @default([0])
+  name   String  @unique
+  usersApllied Int @default(0)
   status  String @default("In progress")
-  userId  String 
+  userEmail  String 
 
 
-  user  User @relation(fields: [userId] , references: [id])
+  user  User @relation(fields: [userEmail] , references: [email])
   feedbacks FeedBacks[]
   appliedEmails Emails[]
 
@@ -100,12 +101,12 @@ model FeedBacks  {
 model Emails {
    id     String @id @default(cuid())
    responseText  String 
-   collectionId  String 
+   collectionName  String 
+   userEmail String 
 
-   appliedCollection Collections @relation(fields: [collectionId] , references: [id]) 
+   appliedCollection Collections @relation(fields: [collectionName] , references: [name]) 
 
-   userId String 
-   user  User @relation(fields: [userId] , references: [id])
+   user  User @relation(fields: [userEmail] , references: [email])
 }
 
 
@@ -117,5 +118,3 @@ model CollectionUpdates {
    collection Collections @relation(fields: [collectionId] , references: [ id ])
    createdAt  DateTime @default(now())
 }
-
-
