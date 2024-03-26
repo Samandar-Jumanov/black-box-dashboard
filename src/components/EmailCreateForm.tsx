@@ -5,7 +5,7 @@ import { toast } from 'react-hot-toast';
 import { TextField, Button, Typography, Container, Select, MenuItem, FormControl, InputLabel, CircularProgress } from '@mui/material';
 import { useRouter } from 'next/navigation'; 
 
-const EmailForm = ({ userEmail, collectionOptions = ['Purchasing Issue', 'Customer Feedback', 'Service Inquiry'] } : any ) => {
+const EmailForm = ({ userEmail, collectionOptions = ['Purchasing issue ', 'Customer Feedback', 'Service Inquiry'] } : any ) => {
   const [responseText, setResponseText] = useState('');
   const [collectionName, setCollectionName] = useState(collectionOptions[0]);
   const [isLoading, setIsLoading] = useState(false);

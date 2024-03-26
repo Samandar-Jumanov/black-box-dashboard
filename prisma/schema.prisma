@@ -67,10 +67,10 @@ model Collections {
   name   String  @unique
   usersApllied Int @default(0)
   status  String @default("In progress")
-  userEmail  String 
 
-
-  user  User @relation(fields: [userEmail] , references: [email])
+  userId  String 
+  user  User @relation(fields: [userId] , references: [id])
+  
   feedbacks FeedBacks[]
   appliedEmails Emails[]
 
