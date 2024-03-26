@@ -1,11 +1,11 @@
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
-    "organizationName" TEXT,
-    "email" TEXT,
+    "organizationName" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "emailVerified" TIMESTAMP(3),
     "image" TEXT,
-    "password" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -75,6 +75,9 @@ CREATE TABLE "Emails" (
     "responseText" TEXT NOT NULL,
     "collectionName" TEXT NOT NULL,
     "userEmail" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Emails_pkey" PRIMARY KEY ("id")
 );
@@ -116,10 +119,7 @@ ALTER TABLE "Collections" ADD CONSTRAINT "Collections_userEmail_fkey" FOREIGN KE
 ALTER TABLE "FeedBacks" ADD CONSTRAINT "FeedBacks_collectionId_fkey" FOREIGN KEY ("collectionId") REFERENCES "Collections"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Emails" ADD CONSTRAINT "Emails_collectionName_fkey" FOREIGN KEY ("collectionName") REFERENCES "Collections"("name") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Emails" ADD CONSTRAINT "Emails_userEmail_fkey" FOREIGN KEY ("userEmail") REFERENCES "User"("email") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Emails" ADD CONSTRAINT "Emails_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "CollectionUpdates" ADD CONSTRAINT "CollectionUpdates_collectionId_fkey" FOREIGN KEY ("collectionId") REFERENCES "Collections"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
