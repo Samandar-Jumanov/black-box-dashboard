@@ -24,7 +24,7 @@ const FeedBacks = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const result: IFeedBack[] | any = await getUserAllFeedbacks(session?.user?.email as string );
+        const result: IFeedBack[] | any = await getUserAllFeedbacks("iam@gmail.com");
         setUserFeedBacks(result);
       } catch (err: any) {
         console.error({
