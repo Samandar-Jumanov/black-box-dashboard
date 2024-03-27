@@ -104,11 +104,11 @@ export const SideBarDrawer = () => {
       (
           <> 
           
-          <ListItemButton onClick={handleSignOut}>
-        <Button color="info" variant="contained" size="medium"  sx={{ width: '100%' }} href='/login'>
-         Sign in 
-        </Button>
-      </ListItemButton>
+          <ListItemButton onClick={(() => router.push("/login"))}>
+            <Button color="error" variant="contained" size="medium"  sx={{ width: '100%' }}>
+              Sign in 
+            </Button>
+          </ListItemButton>
 
    
           </>
