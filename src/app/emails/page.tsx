@@ -1,16 +1,17 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
-import { Typography, Paper, Grid, Button, Box, CircularProgress } from '@mui/material';
+import { Typography, Button, Box, CircularProgress } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/navigation'; 
 import { useSession } from 'next-auth/react';
 import { IResponseEmail } from '@/types/responseText';
 import {  toast } from "react-hot-toast";
-
+import { deleteEmail } from '@/actions/email';
+import  {  UserCreateEmails } from "@/components/userCreatedEmails";
 
 const CreatedEmails = () => {
+
   const router = useRouter();
   const [responseEmails, setResponseEmails] = useState<IResponseEmail[] | null> (null);
   const [isLoading, setIsLoading] = useState(true);
@@ -40,6 +41,20 @@ const CreatedEmails = () => {
   }, [session?.user?.email]);
 
 
+  const removeEmail = async (id: string) => {
+    setIsLoading(true);
+    try {
+      const res = await deleteEmail(id, session?.user?.email as string);
+      console.log(res);
+  
+      setIsLoading(!(res === "Deleted"));
+    } catch (err: any) {
+      console.error({ error: err.message });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
   if (isLoading ) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" height="100vh" mt="100px">
@@ -71,34 +86,8 @@ const CreatedEmails = () => {
           Create Email
         </Button>
       </Box>
-      <Grid container direction="column" spacing={2}>
-        {responseEmails.map((email, index) => (
-          <Grid item key={index} xs={12}>
-            <Paper elevation={3} sx={{ p: 2 }}>
-              <Typography variant="h6" component="h2" gutterBottom sx={{ color: 'primary.main' }}>
-                {email.collectionName}
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 1 }}>
-                {email.responseText}
-              </Typography>
-              <Typography variant="body2" sx={{ fontStyle: 'italic', mb: 1 }}>
-                Created by: <Typography variant="body2" component="span" sx={{ fontWeight: 'medium' }}>{email.userEmail}</Typography>
-              </Typography>
-              <Typography variant="caption" display="block" sx={{ color: 'text.secondary' }}>
-                On: {new Date(email.createdAt).toLocaleDateString()}
-              </Typography>
-              <Box mt={2} display="flex" gap={1}>
-                <Button color="primary" size="small" variant="text">
-                  Update
-                </Button>
-                <Button color="error" size="small" variant="text" startIcon={<DeleteIcon />}>
-                  Delete
-                </Button>
-              </Box>
-            </Paper>
-          </Grid>
-        ))}
-      </Grid>
+         
+         <UserCreateEmails  responseEmails={responseEmails}  removeEmail={removeEmail} />
     </Box>
 
   );

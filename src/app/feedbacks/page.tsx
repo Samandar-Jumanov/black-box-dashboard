@@ -4,10 +4,12 @@ import { Typography, Container, Card, CardContent, CardActionArea, Grid, Avatar,
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'; // For selected items
 import { getUserAllFeedbacks } from '@/actions/feedback';
 import { IFeedBack } from '@/types/feedBack';
+import { useSession } from "next-auth/react";
 
 const FeedBacks = () => {
-  const [data, setData] = useState<IFeedBack[]>([]);
+  const [userFeedBacks, setUserFeedBacks] = useState<IFeedBack[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
+  const { data : session } = useSession()
 
   const selectItem = (id: string) => {
     setSelected(prev => {
@@ -22,8 +24,8 @@ const FeedBacks = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const result: IFeedBack[] | any = await getUserAllFeedbacks('iam@gmail.com');
-        setData(result);
+        const result: IFeedBack[] | any = await getUserAllFeedbacks(session?.user?.email as string );
+        setUserFeedBacks(result);
       } catch (err: any) {
         console.error({
           error: err.message,
@@ -35,7 +37,7 @@ const FeedBacks = () => {
 
   return (
     <Container maxWidth="xl" style={{ marginTop: '80px' }}>
-      {data.map((each: IFeedBack) => (
+      {userFeedBacks.map((each: IFeedBack) => (
         <Card
           elevation={3}
           style={{
