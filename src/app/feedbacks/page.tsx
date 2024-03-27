@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from 'react';
 import { Typography, Container, Card, CardContent, CardActionArea, Grid, Avatar, Box } from '@mui/material';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'; // For selected items
@@ -36,7 +37,7 @@ const FeedBacks = () => {
       }
       fetchData();
     }
-  }, []); 
+  }, [session?.user?.email]); 
   return (
     <Container maxWidth="xl" style={{ marginTop: '80px' }}>
       {userFeedBacks.map((each: IFeedBack) => (
