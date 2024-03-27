@@ -59,7 +59,7 @@ const CreatedEmails = () => {
 
   return (
     <Box mt="40px" sx={{ flexGrow: 1, padding: '20px' }}>
-      <Box display="flex" justifyContent="flex-end" mb={4}>
+      <Box display="flex" justifyContent="flex-end" mb={4} mt={4}>
         <Button
           color="primary"
           aria-label="add"
@@ -100,7 +100,7 @@ const CreatedEmails = () => {
         ))}
       </Grid>
     </Box>
-    
+
   );
 };
 
