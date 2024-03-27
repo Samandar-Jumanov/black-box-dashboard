@@ -40,6 +40,11 @@ export const SideBarDrawer = () => {
   };
 
 
+  const redirectSIgnIn = () => {
+    router.push("/login")
+    handleDrawerClose()
+  }
+
   return (
     <List>
 
@@ -104,8 +109,8 @@ export const SideBarDrawer = () => {
       (
           <> 
           
-          <ListItemButton onClick={(() => router.push("/login"))}>
-            <Button color="error" variant="contained" size="medium"  sx={{ width: '100%' }}>
+          <ListItemButton onClick={redirectSIgnIn}>
+            <Button color="primary" variant="contained" size="medium"  sx={{ width: '100%' }}>
               Sign in 
             </Button>
           </ListItemButton>
