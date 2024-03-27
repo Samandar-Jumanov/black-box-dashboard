@@ -1,23 +1,24 @@
-"use client";
+"use client"
 import React, { useEffect, useState } from 'react';
-import { Typography, Container, Card, CardContent, CardActionArea, Grid, Avatar, Button, Modal, Box } from '@mui/material';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'; // For selected items
+import { Typography, Container, Card, CardContent, CardActionArea, Grid, Avatar, Button, Drawer, Box } from '@mui/material';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { getUserAllFeedbacks } from '@/actions/feedback';
 import { IFeedBack } from '@/types/feedBack';
 import { useSession } from "next-auth/react";
-import Collections from "../collections/page";
-
+import Collections from '../collections/page';
 const FeedBacks = () => {
   const [userFeedBacks, setUserFeedBacks] = useState<IFeedBack[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const { data: session } = useSession();
-  const [isCollectionsPage, setIsCollectionsPage] = useState(true);
+  const [isCollectionsPage, setIsCollectionsPage] = useState(false);
 
   const selectItem = (id: string) => {
     setSelected(prev => {
       if (prev.includes(id)) {
+        // If already selected, remove it from the selection
         return prev.filter(selectedId => selectedId !== id);
       } else {
+        // Otherwise, add to the selection
         return [...prev, id];
       }
     });
@@ -39,45 +40,45 @@ const FeedBacks = () => {
     }
   }, [session?.user?.email]);
 
-  const handleCloseCollections = () => {
-    setIsCollectionsPage(false);
-  };
-
-  const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
+  const handleToggleCollections = () => {
+    setIsCollectionsPage(!isCollectionsPage);
   };
 
   return (
-    <Container maxWidth="xl" style={{ marginTop: '80px', position: 'relative' }}>
+    <Container maxWidth="xl" style={{ marginTop: '80px' }}>
       {selected.length > 0 && (
-        <Button variant="contained" onClick={() => setIsCollectionsPage(true)}>
+        <Button variant="contained" onClick={handleToggleCollections}>
           Add to collections
         </Button>
       )}
 
-      {/* Collections Modal */}
-      <Modal
+      <Drawer
+        anchor="right"
         open={isCollectionsPage}
-        onClose={handleCloseCollections}
-        aria-labelledby="collections-modal-title"
-        aria-describedby="collections-modal-description"
+        onClose={handleToggleCollections}
+        variant="persistent"
+        sx={{
+          width: '75%',
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: '75%',
+            boxSizing: 'border-box',
+          },
+        }}
       >
-        <Box sx={modalStyle}>
-          <Typography id="collections-modal-title" variant="h6" component="h2" marginBottom={2}>
+        <Box
+          sx={{ overflow: 'auto' }}
+          role="presentation"
+        >
+          <Typography variant="h6" sx={{ p: 2 }}>
             Collections
           </Typography>
           <Collections />
-          <Button onClick={handleCloseCollections} style={{marginTop: '20px'}}>Close</Button>
+          <Button onClick={handleToggleCollections} sx={{ m: 2 }}>
+            Close
+          </Button>
         </Box>
-      </Modal>
+      </Drawer>
 
       {userFeedBacks.map((each: IFeedBack) => (
         <Card

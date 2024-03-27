@@ -8,14 +8,12 @@ import Loading from "../loading";
 import { toast } from "react-hot-toast"
 import { Typography , Box } from "@mui/material";
 
-
 const Collections = () => {
   const { data: session } = useSession();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedBugId, setSelectedBugId] = useState<string | null>(null);
   const [userCollections, setUserCollections] = useState<ICollection[] | null>(null);
   const [isLoading, setIsLoading] = useState(true); 
- 
 
   useEffect(() => {
     async function fetchAllCollections() {

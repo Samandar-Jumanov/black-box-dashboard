@@ -8,7 +8,7 @@ interface ContextProps {
     setOpen : Dispatch<SetStateAction<boolean>>;
     open : boolean,
     collectionNames : string[] | null ,
-    setCollectionNames :  Dispatch<SetStateAction<string[] | null >>
+    setCollectionNames :  Dispatch<SetStateAction<string[] |null >>
    
 }
 
