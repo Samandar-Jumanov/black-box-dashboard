@@ -23,6 +23,7 @@ model User {
   accounts Account[]
   emails Emails[]
   collections Collections[]
+  feedBacks FeedBacks[]
 
 }
 
@@ -93,6 +94,8 @@ model FeedBacks  {
   collectionId String 
   collection Collections ? @relation(fields: [collectionId] , references: [ id ] )
 
+  userId String 
+  user  User ? @relation(fields: [userId] , references: [ id ])
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 }

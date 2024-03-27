@@ -1,62 +1,28 @@
-import redisClient from "@/utils/connectRedis";
-import prisma from "../../prisma/prisma"
+"use server"
+
+import prisma from "../../prisma/prisma";
 
 
-// This is used to get all Feedbacks and sort them out based on the collections 
-
-export const getAllFeedBacks = async (  ) =>{
+export const getUserAllFeedbacks = async ( userEmail : string ) =>{
+    if(!userEmail){
+           return "User email is missing "
+    }
 
     try {
-          
-        await prisma.$connect().then(() => {
-                console.log("Database connected")
-        }).catch((err : any ) => console.log({ databaseConnection : err}))
+
+        const user = await prisma.user.findUnique({
+                where : {
+                    email : userEmail
+                },include : {
+                    feedBacks : true 
+                }
+        });
 
 
-        const allfeedBacks  = [];
+        return user?.feedBacks 
 
-        const feedBacks = await prisma.feedBacks.findMany();
-
-       for(const feed of feedBacks){
-           const data = (await redisClient).hGet("feedbacks" , feed.id)
-            
-            if(!data){
-                (await redisClient).hSet("feedbacks" , feed.id , JSON.stringify(feed))
-                allfeedBacks.push(feed)
-            }
-
-          };
-
-        
-        
-         return allfeedBacks
-
-    }catch(error : any ){
-          console.log(error.message);
-          throw new Error("Error when getting feedback")
+    }catch(err : any ){
+             console.log(err.message);
+             return "Something went wrong"
     }
 }
-
-
-
-
-export const getLatest = async () => {
-    const data = await getAllFeedBacks();
-    
-    if (data.length === 0) {
-        return { status: "no-data" }; 
-    }
-
-    let latestElem = data[data.length - 1];
-    
-    const lastItem : any  =( await redisClient).get("latest")
-
-    if (latestElem.description !== lastItem) {
-       ( await redisClient).set("latest", latestElem.description);
-        return { status: "updated", elem: latestElem };
-    };
-
-    return { status: "no-updates" };
-};
-
-
