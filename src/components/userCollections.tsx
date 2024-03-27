@@ -10,7 +10,8 @@ interface UserCollectionsProps {
   handleClose: (id: string, status: string) => void;
   anchorEl: null | HTMLElement;
   selectedBugId: string | null;
-  email : string 
+  email : string ,
+  status : string ,
 }
 
 export const UserCollections: React.FC<UserCollectionsProps> = ({
@@ -39,10 +40,10 @@ export const UserCollections: React.FC<UserCollectionsProps> = ({
               anchorEl={anchorEl}
               keepMounted
               open={Boolean(anchorEl) && selectedBugId === bug.id}
-              onClose={() => handleClose(bug.id, bug.status)}
+              onClose={() => handleClose(bug.id, status)}
             >
-              <MenuItem onClick={() => handleClose(bug.id, bug.status)}>
-                {bug.status === 'Added' ? 'Remove from Progress' : 'Add to Progress'}
+              <MenuItem onClick={() => handleClose(bug.id, status)}>
+                {status === 'Added' ? 'Remove from Progress' : 'Add to Progress'}
               </MenuItem>
             </Menu>
             <Typography variant="h6" component="h2">
