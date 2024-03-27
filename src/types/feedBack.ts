@@ -1,4 +1,3 @@
-import { ICollection } from "./collections"
 
   
 export type IFeedBack = {
@@ -6,10 +5,11 @@ export type IFeedBack = {
      userEmail : string ,
      userName : string ,
      description : string ,
+     collectionId ? : string ,
+     userId  : string ,
+
      createdAt : string ,
      updatedAt : string 
-     collectionId ? : string ,
-     collection  ? : ICollection
 
 }
 

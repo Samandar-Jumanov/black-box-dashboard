@@ -58,39 +58,35 @@ const CreatedEmails = () => {
   }
 
   return (
-    <Box mt="40px" sx={{ flexGrow: 1, padding: '40px' }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Box display="flex" justifyContent="flex-end">
-            <Button
-              color="primary"
-              aria-label="add"
-              size="large"
-              variant="contained"
-              onClick={() => router.push('/emails/create')}
-              startIcon={<AddIcon />}
-            >
-              Create Email
-            </Button>
-          </Box>
-        </Grid>
-        {responseEmails?.map((email : any , index : any ) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <Paper elevation={3} sx={{ p: 2, minHeight: '150px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-              <Box>
-                <Typography variant="h6" component="h2" gutterBottom sx={{ color: 'primary.main' }}>
-                  {email.collectionName}
-                </Typography>
-                <Typography variant="body1" sx={{ mb: 1 }}>
-                  {email.responseText}
-                </Typography>
-                <Typography variant="body2" sx={{ fontStyle: 'italic', mb: 1 }}>
-                  Created by: <Typography variant="body2" component="span" sx={{ fontWeight: 'medium' }}>{email.userEmail}</Typography>
-                </Typography>
-                <Typography variant="caption" display="block" sx={{ color: 'text.secondary' }}>
-                  On: {new Date(email.createdAt).toLocaleDateString()}
-                </Typography>
-              </Box>
+    <Box mt="40px" sx={{ flexGrow: 1, padding: '20px' }}>
+      <Box display="flex" justifyContent="flex-end" mb={4}>
+        <Button
+          color="primary"
+          aria-label="add"
+          size="large"
+          variant="contained"
+          onClick={() => router.push('/emails/create')}
+          startIcon={<AddIcon />}
+        >
+          Create Email
+        </Button>
+      </Box>
+      <Grid container direction="column" spacing={2}>
+        {responseEmails.map((email, index) => (
+          <Grid item key={index} xs={12}>
+            <Paper elevation={3} sx={{ p: 2 }}>
+              <Typography variant="h6" component="h2" gutterBottom sx={{ color: 'primary.main' }}>
+                {email.collectionName}
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 1 }}>
+                {email.responseText}
+              </Typography>
+              <Typography variant="body2" sx={{ fontStyle: 'italic', mb: 1 }}>
+                Created by: <Typography variant="body2" component="span" sx={{ fontWeight: 'medium' }}>{email.userEmail}</Typography>
+              </Typography>
+              <Typography variant="caption" display="block" sx={{ color: 'text.secondary' }}>
+                On: {new Date(email.createdAt).toLocaleDateString()}
+              </Typography>
               <Box mt={2} display="flex" gap={1}>
                 <Button color="primary" size="small" variant="text">
                   Update
@@ -104,6 +100,7 @@ const CreatedEmails = () => {
         ))}
       </Grid>
     </Box>
+    
   );
 };
 
