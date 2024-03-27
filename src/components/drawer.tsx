@@ -23,14 +23,16 @@ export const SideBarDrawer = () => {
 
   const handleSignOut = async () => {
     if(session) {
-      signOut().then(() => {
-        router.push("/")
+      await  signOut().then(() => {
         toast.success("Logged out successfully");
+
       }).catch((err) => {
         console.log({ logOutError: err.message })
         toast.error("Something went wrong");
       })
     }
+    router.push("/")
+
   };
 
   const handleDrawerClose = () => {

@@ -7,7 +7,7 @@ import { ICollection } from '@/types/collections';
 import Loading from "../loading";
 import { toast } from "react-hot-toast"
 import { Typography , Box } from "@mui/material";
-
+import { revalidatePath } from 'next/cache';
 
 const Collections = () => {
   const { data: session } = useSession();
@@ -20,7 +20,7 @@ const Collections = () => {
   useEffect(() => {
     async function fetchAllCollections() {
       if (session?.user?.email) {
-        const url = `https://black-box-dashboard.vercel.app/api/all-collections/${session.user.email}`;
+        const url = `http://localhost:3000/api/all-collections/${session.user.email}`;
         try {
           const response = await fetch(url);
           if (!response.ok) {
@@ -47,32 +47,47 @@ const Collections = () => {
     setAnchorEl(event.currentTarget);
     setSelectedBugId(id);
   };
+  
 
   const handleClose = async (id: string, status: string) => {
-
     setAnchorEl(null);
     setSelectedBugId(null);
-    if(status === "Remove") {
-         return 
-    }
-
-      try {
-        const bodyRequest = {
-          email : session?.user?.email,
-          collectionId : id 
-     }
-     const result = await fetch("https://black-box-dashboard.vercel.app/api/add-progress", {
-        method : "Post",
-        body : JSON.stringify(bodyRequest)  
-     })
-
-        console.log({
-           result : result 
-        })
-      }catch(err : any ){
-           console.log(err)
+    
+    const bodyRequest = JSON.stringify({
+      email: session?.user?.email,
+      collectionId: id,
+    });
+  
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+  
+    const url = status === "Added"
+      ? "http://localhost:3000/api/remove-progress"
+      : "http://localhost:3000/api/add-progress";
+  
+    try {
+      const result = await fetch(url, {
+        method: "POST",
+        headers,
+        body: bodyRequest,
+      });
+  
+      console.log({
+          result : result 
+      })
+      if (!result.ok) {
+        throw new Error("Request failed with status " + result.status);
       }
+  
+      toast.success("Updated");
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong");
+    }
   };
+  
+  
 
   if (isLoading) {
     return <Loading />;

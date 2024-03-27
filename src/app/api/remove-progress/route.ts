@@ -32,12 +32,12 @@ export const POST = async (  request : Request) =>{
         await prisma.collections.update({
               where : { id : collectionId},
               data : {
-                  status : "Added"
+                  status : "In progress"
               }
         })
 
 
-        return new Response("Added",{ status : 201})
+        return new Response("Updated",{ status : 201})
 
     }catch(err : any ){
           console.log({

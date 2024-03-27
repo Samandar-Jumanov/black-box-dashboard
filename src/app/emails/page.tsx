@@ -7,7 +7,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/navigation'; 
 import { useSession } from 'next-auth/react';
 import { IResponseEmail } from '@/types/responseText';
-import {  toast } from "react-hot-toast"
+import {  toast } from "react-hot-toast";
+
+
 const CreatedEmails = () => {
   const router = useRouter();
   const [responseEmails, setResponseEmails] = useState<IResponseEmail[] | null> (null);
