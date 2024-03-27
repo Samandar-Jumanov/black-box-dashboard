@@ -7,6 +7,7 @@ import { ICollection } from '@/types/collections';
 import Loading from "../loading";
 import { toast } from "react-hot-toast"
 import { Typography , Box } from "@mui/material";
+import { revalidatePath } from 'next/cache';
 
 const Collections = () => {
   const { data: session } = useSession();
@@ -14,7 +15,6 @@ const Collections = () => {
   const [selectedBugId, setSelectedBugId] = useState<string | null>(null);
   const [userCollections, setUserCollections] = useState<ICollection[] | null>(null);
   const [isLoading, setIsLoading] = useState(true); 
-  const [ status , setStatus ] = useState<string>("In progress")
  
 
   useEffect(() => {
@@ -67,12 +67,6 @@ const Collections = () => {
       : "https://black-box-dashboard.vercel.app/api/add-progress";
   
     try {
-      if(url.includes("remove")){
-          setStatus("In progress")
-      }else {
-          setStatus("Added")
-      }
-      
       const result = await fetch(url, {
         method: "POST",
         headers,
@@ -118,7 +112,6 @@ const Collections = () => {
           selectedBugId={selectedBugId}
           anchorEl={anchorEl}
           email ={ session?.user?.email as string }
-          status = { status}
         />
       ))}
     </>

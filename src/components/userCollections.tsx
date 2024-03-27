@@ -10,8 +10,7 @@ interface UserCollectionsProps {
   handleClose: (id: string, status: string) => void;
   anchorEl: null | HTMLElement;
   selectedBugId: string | null;
-  email : string ,
-  status : string ,
+  email : string 
 }
 
 export const UserCollections: React.FC<UserCollectionsProps> = ({
@@ -23,9 +22,9 @@ export const UserCollections: React.FC<UserCollectionsProps> = ({
   email 
 }) => {
   return (
-    <Box sx={{ flexGrow: 1, padding: 8 , }} key={bug.id}>
+    <Box sx={{ flexGrow: 1, padding: 8 , marginTop : "30px" }} key={bug.id}>
      
-      <Grid container spacing={2} sx={{marginTop : "20px" }}>
+      <Grid container spacing={2}>
         <Grid item xs={12} sm={6} key={bug.id} sx={{ maxWidth: 'xs' }}>
           <Paper elevation={3} sx={{ p: 2, position: 'relative' }}>
             <IconButton
@@ -40,10 +39,10 @@ export const UserCollections: React.FC<UserCollectionsProps> = ({
               anchorEl={anchorEl}
               keepMounted
               open={Boolean(anchorEl) && selectedBugId === bug.id}
-              onClose={() => handleClose(bug.id, status)}
+              onClose={() => handleClose(bug.id, bug.status)}
             >
-              <MenuItem onClick={() => handleClose(bug.id, status)}>
-                {status === 'Added' ? 'Remove from Progress' : 'Add to Progress'}
+              <MenuItem onClick={() => handleClose(bug.id, bug.status)}>
+                {bug.status === 'Added' ? 'Remove from Progress' : 'Add to Progress'}
               </MenuItem>
             </Menu>
             <Typography variant="h6" component="h2">
