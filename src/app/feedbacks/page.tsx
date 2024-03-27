@@ -10,7 +10,11 @@ const FeedBacks = () => {
   const [userFeedBacks, setUserFeedBacks] = useState<IFeedBack[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const { data : session } = useSession()
+  const [email , setEmail ] = useState<string>("")
 
+
+
+  
   const selectItem = (id: string) => {
     setSelected(prev => {
       if (prev.includes(id)) {
@@ -22,9 +26,12 @@ const FeedBacks = () => {
   };
 
   useEffect(() => {
-    async function fetchData() {
+
+   
+
+    async function fetchData(userEmail : string ) {
       try {
-        const result: IFeedBack[] | any = await getUserAllFeedbacks("iam@gmail.com");
+        const result: IFeedBack[] | any = await getUserAllFeedbacks(userEmail);
         setUserFeedBacks(result);
       } catch (err: any) {
         console.error({
@@ -32,7 +39,12 @@ const FeedBacks = () => {
         });
       }
     }
-    fetchData();
+
+    if(session?.user?.email){
+      setEmail(session?.user?.email)
+      fetchData(email);
+    }
+
   }, []);
 
   return (
