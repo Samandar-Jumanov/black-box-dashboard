@@ -7,6 +7,7 @@ import { ICollection } from '@/types/collections';
 import Loading from "../loading";
 import { toast } from "react-hot-toast"
 import { Typography , Box } from "@mui/material";
+import { useRouter } from 'next/navigation';
 
 const Collections = () => {
   const { data: session } = useSession();
@@ -14,6 +15,8 @@ const Collections = () => {
   const [selectedBugId, setSelectedBugId] = useState<string | null>(null);
   const [userCollections, setUserCollections] = useState<ICollection[] | null>(null);
   const [isLoading, setIsLoading] = useState(true); 
+  const router = useRouter();
+  const isCollectionsPage = false
 
   useEffect(() => {
     async function fetchAllCollections() {
@@ -110,6 +113,7 @@ const Collections = () => {
           selectedBugId={selectedBugId}
           anchorEl={anchorEl}
           email ={ session?.user?.email as string }
+          isCollectionsPage={isCollectionsPage}
         />
       ))}
     </>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, Paper, Typography, Chip, IconButton, Menu, MenuItem } from '@mui/material';
+import { Box, Grid, Paper, Typography, Chip, IconButton, Menu, MenuItem, Button } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { ICollection } from '@/types/collections';
 import { LastFeedBack } from '@/components/LastFeedBack';
@@ -10,7 +10,8 @@ interface UserCollectionsProps {
   handleClose: (id: string, status: string) => void;
   anchorEl: null | HTMLElement;
   selectedBugId: string | null;
-  email : string 
+  email: string;
+  isCollectionsPage: boolean;
 }
 
 export const UserCollections: React.FC<UserCollectionsProps> = ({
@@ -19,11 +20,11 @@ export const UserCollections: React.FC<UserCollectionsProps> = ({
   handleClose,
   anchorEl,
   selectedBugId,
-  email 
+  email,
+  isCollectionsPage,
 }) => {
   return (
-    <Box sx={{ flexGrow: 1, padding: 8 , marginTop : "30px" }} key={bug.id}>
-     
+    <Box sx={{ flexGrow: 1, padding: 8, marginTop: "30px" }} key={bug.id}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} key={bug.id} sx={{ maxWidth: 'xs' }}>
           <Paper elevation={3} sx={{ p: 2, position: 'relative' }}>
@@ -42,7 +43,15 @@ export const UserCollections: React.FC<UserCollectionsProps> = ({
               onClose={() => handleClose(bug.id, bug.status)}
             >
               <MenuItem onClick={() => handleClose(bug.id, bug.status)}>
-                {bug.status === 'Added' ? 'Remove from Progress' : 'Add to Progress'}
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Chip
+                    label={bug.status}
+                    color={bug.status === 'Added' ? 'success' : 'warning'}
+                    size="small"
+                    sx={{ marginRight: 1 }}
+                  />
+                  {bug.status === 'Added' ? 'Remove from Progress' : 'Add to Progress'}
+                </Box>
               </MenuItem>
             </Menu>
             <Typography variant="h6" component="h2">
@@ -60,11 +69,17 @@ export const UserCollections: React.FC<UserCollectionsProps> = ({
             <Typography variant="body2" gutterBottom>
               Collected Date: {bug.createdAt}
             </Typography>
-            <Chip
-              label={bug.status}
-              color={bug.status === 'Added' ? 'success' : 'warning'}
-              sx={{ mt: 1 }}
-            />
+           
+            {!isCollectionsPage && (
+              <Button 
+                variant="contained" 
+                color="success" 
+                size="small" 
+                sx={{ mt: 2, alignSelf: 'flex-start' }}
+              >
+                Add feedbacks
+              </Button>
+            )}
           </Paper>
         </Grid>
       </Grid>
