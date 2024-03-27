@@ -23,6 +23,8 @@ export const SideBarDrawer = () => {
 
   const handleSignOut = async () => {
     if(session) {
+     router.push("/")
+
       await  signOut().then(() => {
         toast.success("Logged out successfully");
 
@@ -31,7 +33,6 @@ export const SideBarDrawer = () => {
         toast.error("Something went wrong");
       })
     }
-    router.push("/")
 
   };
 

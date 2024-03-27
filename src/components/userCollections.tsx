@@ -22,22 +22,9 @@ export const UserCollections: React.FC<UserCollectionsProps> = ({
   email 
 }) => {
   return (
-    <Box sx={{ flexGrow: 1, padding: 8 }} key={bug.id}>
-      <Typography variant="h4" component="h1" gutterBottom sx={{ mb: 2 }}>
-        Bug Collections
-      </Typography>
-      <Typography
-        sx={{
-          mt: 2,
-          mb: 2,
-          fontStyle: 'italic',
-          color: 'text.secondary',
-        }}
-      >
-        These collections are gathered by your users.
-      </Typography>
-
-      <Grid container spacing={2}>
+    <Box sx={{ flexGrow: 1, padding: 8 , }} key={bug.id}>
+     
+      <Grid container spacing={2} sx={{marginTop : "20px" }}>
         <Grid item xs={12} sm={6} key={bug.id} sx={{ maxWidth: 'xs' }}>
           <Paper elevation={3} sx={{ p: 2, position: 'relative' }}>
             <IconButton

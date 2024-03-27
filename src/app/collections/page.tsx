@@ -19,7 +19,7 @@ const Collections = () => {
   useEffect(() => {
     async function fetchAllCollections() {
       if (session?.user?.email) {
-        const url = `https://black-box-dashboard.vercel.app/api/all-collections/${session.user.email}`;
+        const url = `http://localhost:3000/api/all-collections/${session.user.email}`;
         try {
           const response = await fetch(url);
           if (!response.ok) {
