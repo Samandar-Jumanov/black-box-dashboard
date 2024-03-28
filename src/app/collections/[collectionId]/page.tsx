@@ -17,7 +17,7 @@ const Collection = async ({ params } :any ) => {
     if (!result || result.length === 0) { 
         return (
             <Box sx={{ marginTop: "70px", textAlign: "center" }}>
-                <Typography variant="h5">No collections found.</Typography>
+                <Typography variant="h5">No feedbacks  found.</Typography>
             </Box>
         );
     }
