@@ -20,9 +20,10 @@ export const UserCollections: React.FC<UserCollectionsProps> = ({
   handleClose,
   anchorEl,
   selectedBugId,
-  email,
   isCollectionsPage,
 }) => {
+
+
   return (
     <Box sx={{ flexGrow: 1, padding: 8, marginTop: "30px" }} key={bug.id}>
       <Grid container spacing={2}>
@@ -61,7 +62,7 @@ export const UserCollections: React.FC<UserCollectionsProps> = ({
               {bug.description || 'This area should hold bug description'}
             </Typography>
             <Typography variant="body2" gutterBottom>
-              Users Applied: 244
+              Users Applied: {bug.usersApplied}
             </Typography>
 
             <LastFeedBack collectionFeedBacks={bug.feedbacks} />

@@ -74,7 +74,7 @@ const FeedBacks = () => {
             Collections
           </Typography>
           <Collections />
-          <Button onClick={handleToggleCollections} sx={{ m: 2 }}>
+          <Button onClick={handleToggleCollections} sx={{ m: 2 }} variant="contained">
             Close
           </Button>
         </Box>
