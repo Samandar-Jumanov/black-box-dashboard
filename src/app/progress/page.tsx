@@ -15,7 +15,6 @@ const Progress = () => {
    
       if(session?.user?.email){
         const fetchUserActiveCollections = async () => {
-          const email = session?.user?.email 
           const response = await fetch(`/api/all-collections/${session?.user?.email}`);
           const result = await response.json();
           console.log(result)
