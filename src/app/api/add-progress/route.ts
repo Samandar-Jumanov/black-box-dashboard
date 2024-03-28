@@ -35,15 +35,7 @@ export const POST = async (  request : Request) =>{
                   status : "Added"
               }
         })
-
-
-        await prisma.activeCollections.create({
-              data : {
-                    collectionId : collectionId
-              }
-        })
-
-
+            
         return new Response("Added",{ status : 201})
 
     }catch(err : any ){
