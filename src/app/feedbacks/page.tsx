@@ -6,23 +6,24 @@ import { getUserAllFeedbacks } from '@/actions/feedback';
 import { IFeedBack } from '@/types/feedBack';
 import { useSession } from "next-auth/react";
 import Collections from '../collections/page';
+import { useGlobalContext } from '@/components/context';
+
 const FeedBacks = () => {
   const [userFeedBacks, setUserFeedBacks] = useState<IFeedBack[]>([]);
-  const [selected, setSelected] = useState<string[]>([]);
   const { data: session } = useSession();
   const [isCollectionsPage, setIsCollectionsPage] = useState(false);
+  const {  setCollectionId , collectionId } = useGlobalContext()
 
   const selectItem = (id: string) => {
-    setSelected(prev => {
+    setCollectionId(prev  => {
       if (prev.includes(id)) {
-        // If already selected, remove it from the selection
         return prev.filter(selectedId => selectedId !== id);
       } else {
-        // Otherwise, add to the selection
         return [...prev, id];
       }
     });
   };
+
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -44,9 +45,12 @@ const FeedBacks = () => {
     setIsCollectionsPage(!isCollectionsPage);
   };
 
+
+
+
   return (
     <Container maxWidth="xl" style={{ marginTop: '80px' }}>
-      {selected.length > 0 && (
+      {collectionId.length > 0 && (
         <Button variant="contained" onClick={handleToggleCollections}>
           Add to collections
         </Button>
@@ -86,7 +90,7 @@ const FeedBacks = () => {
           style={{
             marginBottom: '20px',
             marginTop: '20px',
-            backgroundColor: selected.includes(each.id) ? '#f0f0f0' : '#fff',
+            backgroundColor: collectionId.includes(each.id) ? '#f0f0f0' : '#fff',
           }}
           key={each.id}
         >
@@ -107,7 +111,7 @@ const FeedBacks = () => {
                     {each.description}
                   </Typography>
                 </Grid>
-                {selected.includes(each.id) && (
+                {collectionId.includes(each.id) && (
                   <Grid item>
                     <Avatar>
                       <CheckCircleOutlineIcon color="success" />

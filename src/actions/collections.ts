@@ -1,14 +1,18 @@
 "use server";
 import prisma from "../../prisma/prisma";
 
-export const addFeedBacks = async (feedBackId: string[], email: string) => {
+export const addFeedBacksToCollection  = async (feedBackId: string[], email: string  , collectionId : string  ) : Promise<string> => {
     try {
 
       await prisma.$transaction(async (prisma) => {
         const userWithCollections = await prisma.user.findUnique({
           where: { email: email },
           include: {
-            collections: true, 
+            collections: {
+                include : {
+                     feedbacks : true 
+                }
+            }, 
           },
         });
   
@@ -17,10 +21,10 @@ export const addFeedBacks = async (feedBackId: string[], email: string) => {
         }
   
       
-        for (const collection of userWithCollections.collections) {
+        for (const _ of feedBackId) {
           await prisma.collections.update({
             where: {
-              id: collection.id,
+              id: collectionId
             },
             data: {
               feedbacks: {
@@ -29,8 +33,14 @@ export const addFeedBacks = async (feedBackId: string[], email: string) => {
             },
           });
         }
+
+        console.log({
+            userCollectionFeedBacks : userWithCollections.collections
+        })
+
       });
-  
+
+      return "Added"
     } catch (err) {
       throw new Error("Something went wrong");
     }

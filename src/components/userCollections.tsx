@@ -3,6 +3,7 @@ import { Box, Grid, Paper, Typography, Chip, IconButton, Menu, MenuItem, Button 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { ICollection } from '@/types/collections';
 import { LastFeedBack } from '@/components/LastFeedBack';
+import { useGlobalContext } from './context';
 
 interface UserCollectionsProps {
   bug: ICollection;
@@ -12,6 +13,7 @@ interface UserCollectionsProps {
   selectedBugId: string | null;
   email: string;
   isCollectionsPage: boolean;
+  addToCollections : ( id : string ) => {} 
 }
 
 export const UserCollections: React.FC<UserCollectionsProps> = ({
@@ -21,8 +23,12 @@ export const UserCollections: React.FC<UserCollectionsProps> = ({
   anchorEl,
   selectedBugId,
   isCollectionsPage,
+  addToCollections
 }) => {
 
+  const { collectionId } = useGlobalContext()
+
+ 
 
   return (
     <Box sx={{ flexGrow: 1, padding: 8, marginTop: "30px" }} key={bug.id}>
@@ -71,13 +77,15 @@ export const UserCollections: React.FC<UserCollectionsProps> = ({
               Collected Date: {bug.createdAt}
             </Typography>
            
-            {!isCollectionsPage && (
+            {isCollectionsPage && (
               <Button 
                 variant="contained" 
                 color="success" 
                 size="small" 
                 sx={{ mt: 2, alignSelf: 'flex-start' }}
+                onClick={( ) => addToCollections(bug.id)}
               >
+                
                 Add feedbacks
               </Button>
             )}

@@ -8,15 +8,19 @@ import Loading from "../loading";
 import { toast } from "react-hot-toast"
 import { Typography , Box } from "@mui/material";
 import { useRouter } from 'next/navigation';
+import { addFeedBacksToCollection }  from "@/actions/collections";
+import { useGlobalContext } from '@/components/context';
 
 const Collections = () => {
   const { data: session } = useSession();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedBugId, setSelectedBugId] = useState<string | null>(null);
   const [userCollections, setUserCollections] = useState<ICollection[] | null>(null);
-  const [isLoading, setIsLoading] = useState(true); 
+  const [isLoading, setIsLoading] = useState(false); 
+  const { collectionId } = useGlobalContext();
+
   const router = useRouter();
-  const isCollectionsPage = false
+  const isCollectionsPage = true
 
   useEffect(() => {
     async function fetchAllCollections() {
@@ -90,6 +94,15 @@ const Collections = () => {
   
   
 
+  const addToCollections = async ( id   :  string ) =>{
+    try {
+      const res  : string = await addFeedBacksToCollection(collectionId , session?.user?.email as string , id  )
+      toast.success(res)
+    }catch(err : any ){
+      toast.error(err.message)
+    }
+  }
+
   if (isLoading) {
     return <Loading />;
   }
@@ -101,6 +114,8 @@ const Collections = () => {
       </Box>
     );
   }
+
+
 
   return (
     <>
@@ -114,6 +129,7 @@ const Collections = () => {
           anchorEl={anchorEl}
           email ={ session?.user?.email as string }
           isCollectionsPage={isCollectionsPage}
+          addToCollections={addToCollections}
         />
       ))}
     </>
