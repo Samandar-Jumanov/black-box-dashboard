@@ -1,9 +1,7 @@
 "use server"
 
-
-
 import prisma from "../../prisma/prisma";
-
+import nodemailer from "nodemailer"
 
 
 export const deleteEmail = async ( emailId  : string , email : string  ) =>{
@@ -44,6 +42,46 @@ export const deleteEmail = async ( emailId  : string , email : string  ) =>{
 
            return "Something happed "
       }
-
-
 }
+
+
+
+
+export const sendMail = async ( emailId : string , feedBackId : string , userEmail : string , password  : string   ) =>{
+          try {
+
+
+
+                 const email = await prisma.emails.findUnique({
+                       where : { id : emailId }
+                 });
+
+
+                 const feedBack = await prisma.feedBacks.findUnique({
+                       where : { id : feedBackId }
+                 });
+
+
+                 const transporter = nodemailer.createTransport({
+                     service: 'gmail',
+                     auth: {
+                       user: userEmail,
+                       pass:  password,
+                     },
+                   });
+                 
+                   const mailOptions = {
+                     from: process.env.EMAIL_USERNAME,
+                     to: feedBack?.userEmail,
+                     subject: "Thanks for your feedback",
+                     text: email?.responseText,
+                   };
+ 
+                   const res =  await transporter.sendMail(mailOptions);
+                    return res 
+          }catch(err : any ){
+                 throw new Error(err.messahe)
+          }
+} 
+
+

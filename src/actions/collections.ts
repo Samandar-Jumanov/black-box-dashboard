@@ -1,5 +1,7 @@
 "use server";
+import { IUser } from "@/types/user";
 import prisma from "../../prisma/prisma";
+import { sendMail } from "./email";
 
 export const addFeedBacksToCollection  = async (feedBackId: string[], email: string  , collectionId : string  ) : Promise<string> => {
     try {
@@ -19,9 +21,22 @@ export const addFeedBacksToCollection  = async (feedBackId: string[], email: str
         if (!userWithCollections) {
           throw new Error("User not found");
         }
+
+
+        const collection = await prisma.collections.findUnique({
+            where : {
+                id : collectionId
+            },
+            include : {
+                appliedEmails : true 
+            }
+        })
+
+
+        const emailId  : string = await collection?.appliedEmails[0].id as string 
   
       
-        for (const _ of feedBackId) {
+        for (const feed  of feedBackId) {
           await prisma.collections.update({
             where: {
               id: collectionId
@@ -32,9 +47,20 @@ export const addFeedBacksToCollection  = async (feedBackId: string[], email: str
               },
             },
           });
+
+          const res = await sendMail(feed , emailId , "ss" , "ss")
+
         }
 
-
+        await prisma.collections.update({
+          where: { id: collectionId },
+          data: {
+            usersApllied: {
+              increment: feedBackId.length
+            }
+          }
+        });
+        
       });
 
       return "Added"
@@ -44,7 +70,7 @@ export const addFeedBacksToCollection  = async (feedBackId: string[], email: str
   };
 
 
-  export const getCollection = async ( collectionId : string ) =>{
+  export const getUserCollectionFeedBacks = async ( collectionId : string ) =>{
         
 
     const collection = await prisma.collections.findUnique({
@@ -58,6 +84,72 @@ export const addFeedBacksToCollection  = async (feedBackId: string[], email: str
     console.log({
        collectionFeedBacks : collection?.feedbacks
     })
+
     return collection?.feedbacks
        
+  }
+
+
+  export const addCollection = async (  userEmail : string , name  : string  ) : Promise<string> =>{
+           
+       if(!userEmail || !name) throw new Error("Invalid request");
+
+       try {
+
+        const user : IUser | any  = await prisma.user.findUnique({
+             where : { email : userEmail}
+        })
+
+         await prisma.collections.create({
+            data : {
+                userEmail : userEmail,
+                userId : user.id,
+                name : name ,
+                user : {
+                    connect : user.id
+                }
+            }
+        })
+
+
+
+          return "Created"
+
+       }catch(err : any ){
+           throw new Error(err.message)
+       }
+  }
+
+
+
+  export const deleteCollection = async ( userEmail : string , collectionId : string  ) =>{
+       
+
+    if(!userEmail || !collectionId) throw new Error("User not found ")
+      try {
+            const user  : IUser | any  = await prisma.user.findUnique({
+              where : { email : userEmail},
+              include : {
+                  collections : true
+              }
+            })
+
+
+            for( const collection of  user?.collections){
+                  if(collection.id !== collectionId){
+                          throw new Error("User doesnt have this collection")
+                  }  
+            }
+
+       await prisma.collections.delete({
+           where : { id : collectionId}
+       })         
+
+
+
+       return "Deleted"
+      }catch(err : any ) {
+          throw new Error(err.message)
+      }
+
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { getCollection } from "@/actions/collections";
+import { getUserCollectionFeedBacks } from "@/actions/collections";
 import IssueCard from "@/components/collectionCard";
 import { Box, Typography } from "@mui/material";
 
@@ -9,7 +9,7 @@ const Collection = async ({ params } :any ) => {
         collectionId: collectionId
     });
 
-    const result = await getCollection(collectionId as string);
+    const result = await getUserCollectionFeedBacks(collectionId as string);
     console.log({
         result: result
     });

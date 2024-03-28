@@ -72,9 +72,9 @@ model Collections {
   name   String  @unique
   usersApllied Int @default(0)
   status  String @default("In progress")
-
+  userEmail String 
   userId  String 
-  user  User @relation(fields: [userId] , references: [id])
+  user  User @relation(fields: [userId] , references: [id] , onDelete:  Cascade)
 
   feedbacks FeedBacks[]
   appliedEmails Emails[]
