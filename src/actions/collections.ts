@@ -34,9 +34,6 @@ export const addFeedBacksToCollection  = async (feedBackId: string[], email: str
           });
         }
 
-        console.log({
-            userCollectionFeedBacks : userWithCollections.collections
-        })
 
       });
 
@@ -45,3 +42,22 @@ export const addFeedBacksToCollection  = async (feedBackId: string[], email: str
       throw new Error("Something went wrong");
     }
   };
+
+
+  export const getCollection = async ( collectionId : string ) =>{
+        
+
+    const collection = await prisma.collections.findUnique({
+        where : { id : collectionId },
+        include : {
+           feedbacks : true 
+        }
+    });
+
+
+    console.log({
+       collectionFeedBacks : collection?.feedbacks
+    })
+    return collection?.feedbacks
+       
+  }

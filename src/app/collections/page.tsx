@@ -11,16 +11,20 @@ import { useRouter } from 'next/navigation';
 import { addFeedBacksToCollection }  from "@/actions/collections";
 import { useGlobalContext } from '@/components/context';
 
-const Collections = () => {
+const Collections = (  ) => {
   const { data: session } = useSession();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [selectedBugId, setSelectedBugId] = useState<string | null>(null);
   const [userCollections, setUserCollections] = useState<ICollection[] | null>(null);
   const [isLoading, setIsLoading] = useState(false); 
   const { collectionId } = useGlobalContext();
 
+  
   const router = useRouter();
-  const isCollectionsPage = true
+
+  const routeToCollection = ( id : string  ) =>{
+      router.push(`/collections/${id}`)
+  }
+
+
 
   useEffect(() => {
     async function fetchAllCollections() {
@@ -48,15 +52,10 @@ const Collections = () => {
     fetchAllCollections();
   }, [session?.user?.email]);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>, id: string) => {
-    setAnchorEl(event.currentTarget);
-    setSelectedBugId(id);
-  };
-  
 
-  const handleClose = async (id: string, status: string) => {
-    setAnchorEl(null);
-    setSelectedBugId(null);
+
+  const updateCollectionStatus =  async ( id: string, status: string) =>{
+  
     
     const bodyRequest = JSON.stringify({
       email: session?.user?.email,
@@ -90,7 +89,10 @@ const Collections = () => {
       console.error(error);
       toast.error("Something went wrong");
     }
-  };
+      
+  }
+
+
   
   
 
@@ -123,13 +125,9 @@ const Collections = () => {
         <UserCollections
           key={bug.id} 
           bug={bug}
-          handleClick={handleClick}
-          handleClose={handleClose}
-          selectedBugId={selectedBugId}
-          anchorEl={anchorEl}
-          email ={ session?.user?.email as string }
-          isCollectionsPage={isCollectionsPage}
           addToCollections={addToCollections}
+          routeToCollection = {routeToCollection}
+          updateCollectionStatus={updateCollectionStatus}
         />
       ))}
     </>
