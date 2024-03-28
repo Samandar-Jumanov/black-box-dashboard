@@ -20,7 +20,7 @@ const EmailForm = ({ userEmail, collectionOptions = ['Purchasing issue ', 'Custo
         userEmail,
       };
 
-      const response = await fetch('https://black-box-dashboard.vercel.app/api/emails/create', {
+      const response = await fetch('/api/emails/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

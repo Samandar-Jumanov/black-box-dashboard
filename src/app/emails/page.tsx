@@ -22,7 +22,7 @@ const CreatedEmails = () => {
       const fetchResponseEmails = async () => {
         setIsLoading(true);
         try {
-          const response = await fetch(`https://black-box-dashboard.vercel.app/api/emails/${session?.user?.email}`);
+          const response = await fetch(`/api/emails/${session?.user?.email}`);
           if (!response.ok) throw new Error('Failed to fetch emails');
           const data = await response.json();
           setResponseEmails(data);

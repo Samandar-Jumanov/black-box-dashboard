@@ -64,8 +64,8 @@ const Collections = () => {
     };
   
     const url = status === "Added"
-      ? "https://black-box-dashboard.vercel.app/api/remove-progress"
-      : "https://black-box-dashboard.vercel.app/api/add-progress";
+      ? "/api/remove-progress"
+      : "/api/add-progress";
   
     try {
       const result = await fetch(url, {

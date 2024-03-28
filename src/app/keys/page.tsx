@@ -12,16 +12,13 @@ const ApiKeys = () => {
   const [apiKeys, setApiKeys] = useState<ApiKey[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { data: session } = useSession();
-
-  const localhost = "http://localhost:3000"
-  const vercelUrl = "https://black-box-dashboard.vercel.app"
   useEffect(() => {
     if (session?.user?.email) {
       const fetchApiKey = async () => {
         setIsLoading(true); 
         try {
           const email = session?.user?.email as string
-          const response = await fetch(`${vercelUrl}/api/key/${email}`, {
+          const response = await fetch(`/api/key/${email}`, {
             method: "GET",
           });
           if (!response.ok) throw new Error('Network response was not ok');

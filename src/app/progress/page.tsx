@@ -1,48 +1,39 @@
-"use client"
+"use client";
 
-import React , { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { Box } from "@mui/material";
-import ChartComponent from '@/components/ChartComponent'; 
-
-const bugs = [
-  { id: 1, name: 'Bug 1', description: 'Description of Bug 1', status: 'Added', usersApplied: [3, 1, 6, 4], collectedDate: '2024-03-01' },
-  { id: 2, name: 'Bug 2', description: 'Description of Bug 2', status: 'In Progress', usersApplied: [1, 2, 77, 4], collectedDate: '2024-03-02' },
-  { id: 3, name: 'Bug 3', description: 'Description of Bug 3', status: 'Added', usersApplied: [1, 32, 88, 8], collectedDate: '2024-03-03' },
-  { id: 4, name: 'Bug 4', description: 'Description of Bug 4', status: 'In Progress', usersApplied: [3, 12, 6, 33], collectedDate: '2024-03-04' },
-];
+import ChartComponent from '@/components/ChartComponent';
+import { useSession } from 'next-auth/react';
+import { ICollection } from '@/types/collections';
 
 const Progress = () => {
-  const [ activeProgresses , setActiveProgresses] = useState(bugs)
+  const [userCollections, setUserCollections] = useState<ICollection[]>([]);
+  const { data: session } = useSession();
 
+  useEffect(() => {
+   
+      if(session?.user?.email){
+        const fetchUserActiveCollections = async () => {
+          const email = session?.user?.email 
+          const response = await fetch(`/api/all-collections/${session?.user?.email}`);
+          const result = await response.json();
+          console.log(result)
+          setUserCollections(result);
+        };
+        fetchUserActiveCollections();
+      }
+  }, [session]); 
 
-  // useEffect(() => {
-  //      async function fetchProgresses(){
-  //       try {
-  //          const res = await fetch(`http://localhost:3000/api/getActive/iam@gmail.com`)
-  //           console.log(res.json());
-
-
-  //       }catch(err : any ){
-  //            console.log(err)
-  //       }
-  //      }
-  //      fetchProgresses();
-
-       
-  // } , [])
-  
-  
   const labels = ['Jan', 'Feb', 'Mar', 'Apr'];
 
   return (
     <Box sx={{ padding: "60px", marginTop: "100px" }}>
-      {activeProgresses.map((bug, index) => {
-        return (
-          <Box key={bug.id} mb={5}>
-            <ChartComponent labels={labels} data={bug.usersApplied} monthIndex={3} />
-          </Box>
-        );
-      })}
+      {userCollections.filter(bug => bug.status === "Added").map((bug) => (
+        <Box key={bug.id} mb={5}>
+          <ChartComponent labels={labels} data={22} monthIndex={3} />
+        </Box>
+      ))}
     </Box>
   );
 };

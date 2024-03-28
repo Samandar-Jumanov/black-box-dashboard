@@ -1,3 +1,4 @@
+// ChartComponent.jsx
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import {
@@ -10,32 +11,25 @@ import {
   Legend,
 } from 'chart.js';
 
-import getRemainingMonths from '@/utils/calculateMonth';
-
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
-interface ChartComponentProps {
-  labels: string[];
-  data: number[];
-  monthIndex : number 
-}
 
-const ChartComponent: React.FC<ChartComponentProps> = ({ labels, data  , monthIndex  }) => {
+const ChartComponent = ({ labels, data , monthIndex } : {labels : string[], data : number , monthIndex : number }) => {
 
 
-  const remainingMonth : string[] = getRemainingMonths(monthIndex)
-  const borderWidth = 2; 
+
+  const char = [22, 11, 44, 22 , 33, 22, 11, 88, 66,533 ,22, 0]
 
   const chartData = {
-    labels,
+    labels, 
     datasets: [
       {
-        label: 'Progress',
-        data,
+        label: 'Weekly User Feedback',
+        data: char,
         fill: false,
         tension: 0.1,
-        borderWidth,
-        borderColor :"red"
+        borderWidth: 2,
+        borderColor: "blue",
       },
     ],
   };

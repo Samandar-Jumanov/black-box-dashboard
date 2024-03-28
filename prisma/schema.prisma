@@ -27,6 +27,10 @@ model User {
 
 }
 
+
+
+
+
 model Account {
   id                String   @id @default(uuid())
   userId            String
@@ -71,10 +75,9 @@ model Collections {
 
   userId  String 
   user  User @relation(fields: [userId] , references: [id])
-  
+
   feedbacks FeedBacks[]
   appliedEmails Emails[]
-
   updates CollectionUpdates[]
 
   createdAt         DateTime  @default(now())

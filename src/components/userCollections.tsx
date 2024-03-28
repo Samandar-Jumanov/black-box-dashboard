@@ -62,7 +62,7 @@ export const UserCollections: React.FC<UserCollectionsProps> = ({
               {bug.description || 'This area should hold bug description'}
             </Typography>
             <Typography variant="body2" gutterBottom>
-              Users Applied: {bug.usersApplied}
+              Users Applied: {bug.usersApllied}
             </Typography>
 
             <LastFeedBack collectionFeedBacks={bug.feedbacks} />

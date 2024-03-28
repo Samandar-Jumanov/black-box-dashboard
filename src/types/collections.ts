@@ -5,14 +5,13 @@ import  { IFeedBack } from "./feedBack"
 export  type ICollection = {
       id  : string ,
       name : string ,
-      usersApplied : number[],
+      usersApllied : number,
       status :string ,
       userId: string ,
       description ? : string,
       user : IUser,
       feedbacks : IFeedBack[],
-      appliedEmails : [],
-      activeCollections  : [],
+      appliedEmails : any[],
       updates : [],
       createdAt : string ,
       updatedAt : string 
