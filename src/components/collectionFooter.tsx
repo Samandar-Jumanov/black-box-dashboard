@@ -34,7 +34,6 @@ const CollectionFooter = ({ collectedDate, onAddFeedback , onDelete , onUpdateCo
         size="small"
         sx={{ mt: 1 }}
         onClick={onAddFeedback}
-        disabled
       >
         Add Feedback
       </Button>
