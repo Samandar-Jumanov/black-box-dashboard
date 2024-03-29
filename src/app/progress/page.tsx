@@ -6,7 +6,7 @@ import { Box } from "@mui/material";
 import ChartComponent from '@/components/ChartComponent';
 import { useSession } from 'next-auth/react';
 import { ICollection } from '@/types/collections';
-
+import {  Typography} from "@mui/material"
 const Progress = () => {
   const [userCollections, setUserCollections] = useState<ICollection[]>([]);
   const { data: session } = useSession();
@@ -26,6 +26,14 @@ const Progress = () => {
 
   const labels = ['Jan', 'Feb', 'Mar', 'Apr'];
 
+  if( !userCollections || userCollections.length <=0 ) {
+       
+       return (
+         <Typography variant="h6" style={{ textAlign: 'center', marginTop: '80px' }}>
+               No progres found  found. Please set active the collection  if it is in progress 
+        </Typography>
+       )
+  }
   return (
     <Box sx={{ padding: "60px", marginTop: "100px" }}>
       {userCollections.filter(bug => bug.status === "Added").map((bug) => (

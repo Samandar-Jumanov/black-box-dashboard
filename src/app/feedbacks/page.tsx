@@ -1,4 +1,5 @@
 "use client"
+
 import React, { useEffect, useState } from 'react';
 import { Typography, Container, Card, CardContent, CardActionArea, Grid, Avatar, Button, Drawer, Box } from '@mui/material';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
@@ -12,10 +13,10 @@ const FeedBacks = () => {
   const [userFeedBacks, setUserFeedBacks] = useState<IFeedBack[]>([]);
   const { data: session } = useSession();
   const [isCollectionsPage, setIsCollectionsPage] = useState(false);
-  const {  setCollectionId , collectionId } = useGlobalContext()
+  const { setCollectionId, collectionId } = useGlobalContext();
 
   const selectItem = (id: string) => {
-    setCollectionId(prev  => {
+    setCollectionId(prev => {
       if (prev.includes(id)) {
         return prev.filter(selectedId => selectedId !== id);
       } else {
@@ -23,7 +24,6 @@ const FeedBacks = () => {
       }
     });
   };
-
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -44,9 +44,6 @@ const FeedBacks = () => {
   const handleToggleCollections = () => {
     setIsCollectionsPage(!isCollectionsPage);
   };
-
-
-
 
   return (
     <Container maxWidth="xl" style={{ marginTop: '80px' }}>
@@ -84,45 +81,51 @@ const FeedBacks = () => {
         </Box>
       </Drawer>
 
-      {userFeedBacks.map((each: IFeedBack) => (
-        <Card
-          elevation={3}
-          style={{
-            marginBottom: '20px',
-            marginTop: '20px',
-            backgroundColor: collectionId.includes(each.id) ? '#f0f0f0' : '#fff',
-          }}
-          key={each.id}
-        >
-          <CardActionArea onClick={() => selectItem(each.id)}>
-            <CardContent>
-              <Grid container spacing={2} alignItems="center">
-                <Grid item xs>
-                  <Typography variant="h5" component="h3" gutterBottom>
-                    Feedback from {each.userName}
-                  </Typography>
-                  <Typography variant="body1" gutterBottom>
-                    Date: {new Date(each.createdAt).toLocaleDateString()}
-                  </Typography>
-                  <Typography variant="body1" gutterBottom>
-                    User email: {each.userEmail}
-                  </Typography>
-                  <Typography variant="body2" style={{ whiteSpace: 'pre-wrap' }}>
-                    {each.description}
-                  </Typography>
-                </Grid>
-                {collectionId.includes(each.id) && (
-                  <Grid item>
-                    <Avatar>
-                      <CheckCircleOutlineIcon color="success" />
-                    </Avatar>
+      {userFeedBacks.length > 0 ? (
+        userFeedBacks.map((each: IFeedBack) => (
+          <Card
+            elevation={3}
+            style={{
+              marginBottom: '20px',
+              marginTop: '20px',
+              backgroundColor: collectionId.includes(each.id) ? '#f0f0f0' : '#fff',
+            }}
+            key={each.id}
+          >
+            <CardActionArea onClick={() => selectItem(each.id)}>
+              <CardContent>
+                <Grid container spacing={2} alignItems="center">
+                  <Grid item xs>
+                    <Typography variant="h5" component="h3" gutterBottom>
+                      Feedback from {each.userName}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Date: {new Date(each.createdAt).toLocaleDateString()}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      User email: {each.userEmail}
+                    </Typography>
+                    <Typography variant="body2" style={{ whiteSpace: 'pre-wrap' }}>
+                      {each.description}
+                    </Typography>
                   </Grid>
-                )}
-              </Grid>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-      ))}
+                  {collectionId.includes(each.id) && (
+                    <Grid item>
+                      <Avatar>
+                        <CheckCircleOutlineIcon color="success" />
+                      </Avatar>
+                    </Grid>
+                  )}
+                </Grid>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        ))
+      ) : (
+        <Typography variant="h6" style={{ textAlign: 'center', marginTop: '20px' }}>
+          No feedbacks found.
+        </Typography>
+      )}
     </Container>
   );
 };

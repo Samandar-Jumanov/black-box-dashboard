@@ -5,13 +5,13 @@ import { CssBaseline, AppBar, Toolbar, Typography, IconButton, Box, SwipeableDra
 import MenuIcon from '@mui/icons-material/Menu';
 import { useGlobalContext } from './context';
 import {SideBarDrawer} from './drawer'; 
-
-
+import { useSession } from "next-auth/react"
 const drawerWidth = 240;
 
 const SideBarLayout = () => {
   const { open, setOpen } = useGlobalContext();
   const theme = useTheme();
+  const { data : session } = useSession();
 
   const handleDrawerToggle = () => {
     setOpen(!open);
@@ -38,7 +38,7 @@ const SideBarLayout = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-             Black box 
+            {session?.user?.email || ""}
           </Typography>
         </Toolbar>
       </AppBar>

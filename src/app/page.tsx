@@ -1,11 +1,12 @@
 "use client";
-// Import necessary components and hooks
+
 import { styled } from '@mui/material/styles';
 import { Box, Button, Container, Typography } from '@mui/material';
 import { LayoutPage } from "@/components/layout";
 import { useSession } from "next-auth/react";
 import type { NextPage } from 'next';
 import { useRouter }  from "next/navigation";
+import  CheckoutForm  from "@/components/Stripe"
 
 const MainContainer = styled(Container)(({ theme }) => ({
   marginTop: theme.spacing(12),
@@ -33,7 +34,7 @@ const Home: NextPage = () => {
   }
 
   return (
-    <MainContainer  maxWidth="xs" sx = {{
+    <MainContainer  maxWidth="xl" sx = {{
         mt : 8 
     }}>
       <CenteredBox>
@@ -48,6 +49,7 @@ const Home: NextPage = () => {
           GET an API Key
         </StyledButton>
       </CenteredBox>
+      {/* <  CheckoutForm /> */}
     </MainContainer>
   );
 };

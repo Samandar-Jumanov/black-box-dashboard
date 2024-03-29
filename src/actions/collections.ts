@@ -116,7 +116,7 @@ export const addFeedBacksToCollection  = async (feedBackId: string[], email: str
           return "Created"
 
        }catch(err : any ){
-           throw new Error(err.message)
+           throw new Error("Internal server error")
        }
   }
 
@@ -149,7 +149,7 @@ export const addFeedBacksToCollection  = async (feedBackId: string[], email: str
 
        return "Deleted"
       }catch(err : any ) {
-          throw new Error(err.message)
+          throw new Error("Internal server error")
       }
 
   }

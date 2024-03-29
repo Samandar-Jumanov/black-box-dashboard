@@ -22,6 +22,6 @@ export const getUserAllFeedbacks = async ( userEmail : string ) =>{
 
     }catch(err : any ){
              console.log(err.message);
-             return "Something went wrong"
+            throw new Error("Internal server error")
     }
 }

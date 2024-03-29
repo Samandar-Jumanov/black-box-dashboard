@@ -26,7 +26,7 @@ export const deleteEmail = async ( emailId  : string , email : string  ) =>{
       const res = await  userCreatedEmails.some((each : any ) => each.id === emailId)
      
       if(!res){
-             throw new Error("User doesnt have this email")
+             throw new Error("User doesnt have this email response ")
       }
       
       await prisma.emails.delete({
@@ -40,7 +40,7 @@ export const deleteEmail = async ( emailId  : string , email : string  ) =>{
                   error : err 
            })
 
-           return "Something happed "
+         throw new Error("Internal server error")
       }
 }
 
@@ -80,7 +80,7 @@ export const sendMail = async ( emailId : string , feedBackId : string , userEma
                    const res =  await transporter.sendMail(mailOptions);
                     return res 
           }catch(err : any ){
-                 throw new Error(err.messahe)
+                 throw new Error("Internal server error")
           }
 } 
 
