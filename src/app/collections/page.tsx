@@ -8,7 +8,7 @@ import Loading from "../loading";
 import { toast } from "react-hot-toast"
 import { Typography , Box  , Button } from "@mui/material";
 import { useRouter } from 'next/navigation';
-import { addFeedBacksToCollection }  from "@/actions/collections";
+import { addFeedBacksToCollection , deleteCollection }  from "@/actions/collections";
 import { useGlobalContext } from '@/components/context';
 
 const Collections = (  ) => {
@@ -54,6 +54,14 @@ const Collections = (  ) => {
   }, [session?.user?.email]);
 
 
+  const removeCollection = async ( id : string ) =>{
+     try {
+      const res = await deleteCollection(session?.user?.email as string  , id )
+      toast.success(res)
+     }catch(err : any ) {
+        toast.error("Something went wrong")
+     }
+  }
 
   const updateCollectionStatus =  async ( id: string, status: string) =>{
   
@@ -106,6 +114,7 @@ const Collections = (  ) => {
     }
   }
 
+
   if (isLoading) {
     return <Loading />;
   }
@@ -123,6 +132,8 @@ const Collections = (  ) => {
 
   return (
     <>
+          <Button onClick={() => router.push('/collections/create')}  variant="contained">  Create one </Button>
+
       {userCollections && userCollections.map((bug: ICollection) => (
         <UserCollections
           key={bug.id} 
@@ -130,6 +141,7 @@ const Collections = (  ) => {
           addToCollections={addToCollections}
           routeToCollection = {routeToCollection}
           updateCollectionStatus={updateCollectionStatus}
+          removeCollection={removeCollection}
         />
       ))}
     </>

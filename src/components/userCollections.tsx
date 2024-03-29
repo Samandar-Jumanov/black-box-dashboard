@@ -10,13 +10,15 @@ interface UserCollectionsProps {
   addToCollections: (id: string) => void;
   routeToCollection: (id: string) => void;
   updateCollectionStatus : ( id : string , status : string ) => void 
+  removeCollection : ( id : string )  => void 
 }
 
 export const UserCollections: React.FC<UserCollectionsProps> = ({
   bug,
   addToCollections,
   routeToCollection,
-  updateCollectionStatus
+  updateCollectionStatus,
+  removeCollection
 }) => {
  
 
@@ -24,6 +26,16 @@ export const UserCollections: React.FC<UserCollectionsProps> = ({
     e.stopPropagation();
     addToCollections(bug.id);
   };
+
+  const onDelete = () =>{
+    removeCollection(bug.id)
+  }
+
+
+  const onUpdateCollectionStatus = ( ) =>{
+    updateCollectionStatus(bug.id , bug.status)
+  }
+
 
   return (
     <Box sx={{ flexGrow: 1, padding: 2, mt: 8 }}>
@@ -46,7 +58,8 @@ export const UserCollections: React.FC<UserCollectionsProps> = ({
             <CollectionFooter collectedDate={bug.createdAt} 
                onAddFeedback={onAddFeedback} 
                status={bug.status}
-               updateCollectionStatus={updateCollectionStatus}
+               onUpdateCollectionStatus={onUpdateCollectionStatus}
+               onDelete={onDelete}
                />
           </Paper>
         </Grid>
