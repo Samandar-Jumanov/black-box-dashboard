@@ -37,6 +37,10 @@ export const UserCollections: React.FC<UserCollectionsProps> = ({
   }
 
 
+
+  const seeMore = ( ) =>{
+    routeToCollection(bug.id)
+  }
   return (
     <Box sx={{ flexGrow: 1, padding: 2, mt: 8 }}>
       <Grid container spacing={2} justifyContent="center">
@@ -52,7 +56,8 @@ export const UserCollections: React.FC<UserCollectionsProps> = ({
               transform: 'scale(1.05)',
               boxShadow: '0 6px 20px rgba(0,0,0,0.12)',
             }
-          }} onClick={() => routeToCollection(bug.id)}>
+          }}>
+
             <CollectionHeader name={bug.name} status={bug.status} />
             <CollectionContent description={bug.description} usersApplied={bug.usersApllied} feedbacks={bug.feedbacks} />
             <CollectionFooter collectedDate={bug.createdAt} 
@@ -60,6 +65,7 @@ export const UserCollections: React.FC<UserCollectionsProps> = ({
                status={bug.status}
                onUpdateCollectionStatus={onUpdateCollectionStatus}
                onDelete={onDelete}
+               seeMore={seeMore}
                />
           </Paper>
         </Grid>

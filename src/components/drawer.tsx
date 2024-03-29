@@ -49,13 +49,13 @@ export const SideBarDrawer = () => {
   return (
     <List>
 
-         <ListItemButton onClick={handleDrawerClose}>
+         {/* <ListItemButton onClick={handleDrawerClose}>
             <MuiLink underline="none" color="inherit" sx={{ display: 'flex', width: '100%' }} href="/docs">
               <ListItemIcon><ArticleIcon /></ListItemIcon>
               <ListItemText primary="See documentation" />
             </MuiLink>
           </ListItemButton>
-          <Divider />
+          <Divider /> */}
 
       { session ? (
         <>
