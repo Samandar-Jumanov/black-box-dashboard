@@ -103,11 +103,11 @@ export const addFeedBacksToCollection  = async (feedBackId: string[], email: str
          await prisma.collections.create({
             data : {
                 userEmail : userEmail,
-                userId : user.id,
                 name : name ,
-                user : {
-                    connect : user.id
-                }
+                userId : user.id
+                // user : {
+                //     connect : user.id
+                // }
             }
         })
 
@@ -116,6 +116,7 @@ export const addFeedBacksToCollection  = async (feedBackId: string[], email: str
           return "Created"
 
        }catch(err : any ){
+           console.log(err.message)
            throw new Error("Internal server error")
        }
   }

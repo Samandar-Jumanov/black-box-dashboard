@@ -6,7 +6,7 @@ import { UserCollections } from '@/components/userCollections';
 import { ICollection } from '@/types/collections';
 import Loading from "../loading";
 import { toast } from "react-hot-toast"
-import { Typography , Box } from "@mui/material";
+import { Typography , Box  , Button } from "@mui/material";
 import { useRouter } from 'next/navigation';
 import { addFeedBacksToCollection }  from "@/actions/collections";
 import { useGlobalContext } from '@/components/context';
@@ -15,8 +15,8 @@ const Collections = (  ) => {
   const { data: session } = useSession();
   const [userCollections, setUserCollections] = useState<ICollection[] | null>(null);
   const [isLoading, setIsLoading] = useState(false); 
-  const { collectionId } = useGlobalContext();
-
+  const { collectionId, setIsCollctionsPage } = useGlobalContext();
+  
   
   const router = useRouter();
 
@@ -28,6 +28,7 @@ const Collections = (  ) => {
 
   useEffect(() => {
     async function fetchAllCollections() {
+      setIsCollctionsPage(true)
       if (session?.user?.email) {
         const url = `/api/all-collections/${session.user.email}`;
         try {
@@ -112,7 +113,8 @@ const Collections = (  ) => {
   if (!userCollections || userCollections.length <= 0) {
     return (
       <Box mt="130px" textAlign="center">
-        <Typography variant="h5">No collections found yet | Make sure you integrated your website with our package</Typography>
+        <Typography variant="h5">No collections found yet </Typography>
+          <Button onClick={() => router.push('/collections/create')}  variant="contained">  Create one </Button>
       </Box>
     );
   }

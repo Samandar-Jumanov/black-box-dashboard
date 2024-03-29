@@ -9,10 +9,6 @@ import { useGlobalContext } from './context';
 
 const CollectionFooter = ({ collectedDate, onAddFeedback } : any ) => {
     const  { isCollectionPage , setIsCollctionsPage } = useGlobalContext()
-    
-
-
-    setIsCollctionsPage(true);
 
     
     return (
@@ -20,7 +16,8 @@ const CollectionFooter = ({ collectedDate, onAddFeedback } : any ) => {
     <Typography variant="body2" sx={{ color: 'text.secondary' }}>
       Collected Date: {new Date(collectedDate).toLocaleDateString()}
     </Typography>
-    {isCollectionPage && (
+
+    {!isCollectionPage && (
       <Button
         variant="contained"
         color="success"
@@ -31,6 +28,34 @@ const CollectionFooter = ({ collectedDate, onAddFeedback } : any ) => {
         Add Feedback
       </Button>
     )}
+
+
+    {isCollectionPage && (
+           <>  
+
+          <Button
+          variant="contained"
+          color="error"
+          size="small"
+          sx={{ mt: 1 }}
+          onClick={onAddFeedback}
+        >
+          Delete collection 
+        </Button>
+
+        <Button
+          variant="contained"
+          size="small"
+          sx={{ mt: 1  , ml : 2}}
+          onClick={onAddFeedback}
+        >
+          Add to progress 
+        </Button>
+           
+            </>
+
+    )}
+    
   </Box>
     )
 }

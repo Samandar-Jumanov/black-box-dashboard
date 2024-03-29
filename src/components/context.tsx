@@ -28,7 +28,7 @@ interface GlobalContextProviderProps {
 export const GlobalContextProvider: React.FC<GlobalContextProviderProps> = ({ children }) => {
     const [open, setOpen] = useState<boolean>(false);
     const [collectionId, setCollectionId] = useState<string[]>([]);
-    const [ isCollectionPage ,  setIsCollctionsPage] = useState<boolean>(false)
+    const [ isCollectionPage ,  setIsCollctionsPage] = useState<boolean>(true)
 
     return (
         <GlobalContext.Provider value={{ open, setOpen,
